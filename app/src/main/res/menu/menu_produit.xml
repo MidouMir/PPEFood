@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/PopupMenu"
+    android:popupTheme="@style/PopupMenu">
+    <item
+        android:id="@+id/action_ajouter"
+        android:textColor="@color/noir"
+        android:orderInCategory="100"
+        android:title="@string/action_ajouter" />
+    <item
+        android:id="@+id/action_more"
+        android:textColor="@color/noir"
+        android:orderInCategory="101"
+        android:title="@string/action_more" />
+</menu>

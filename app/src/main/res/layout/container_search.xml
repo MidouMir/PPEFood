@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:outlineProvider="background"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <ImageView
+        android:layout_width="80dp"
+        android:scaleType="fitXY"
+        android:layout_height="60dp"
+        android:id="@+id/photoP"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/idP"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textStyle="bold"
+        android:text="Nom du produit"
+        android:id="@+id/textTitre"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/photoP"
+        android:layout_toLeftOf="@+id/textPrix"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Prix €"
+        android:id="@+id/textPrix"
+        android:textColor="@color/colorAccent"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Catégorie"
+        android:id="@+id/textCat"
+        android:layout_marginLeft="5dp"
+        android:layout_below="@id/textTitre"
+        android:layout_toRightOf="@id/photoP"
+        android:layout_toEndOf="@id/photoP"
+        android:textColor="#666"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Quantité"
+        android:id="@+id/textQte"
+        android:layout_marginLeft="5dp"
+        android:layout_below="@id/textCat"
+        android:layout_toRightOf="@id/photoP"
+        android:textColor="#666"/>
+
+</RelativeLayout>

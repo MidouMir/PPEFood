@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">McDeliver</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="hello_world">Bongiorno!</string>
+    <string name="Mail">Adresse Mail</string>
+    <string name="Username">Utilisateur</string>
+    <string name="Password">Mot de passe</string>
+    <string name="LoginGet">User - Get</string>
+    <string name="LoginPost">User - Post</string>
+    <string name="App">Connexion</string>
+    <string name="LoginStatus">Status</string>
+    <string name="LoginRole">Rôle</string>
+    <string name="Status">Pas connecté</string>
+    <string name="Role">Pas assigné</string>
+    <string name="method">Méthode</string>
+    <string name="Choose">Choisir</string>
+    <string name="drawer_open">Drawer Opened</string>
+    <string name="drawer_close">Drawer Closed</string>
+
+    <string name="menu_compte">Mon compte</string>
+    <string name="menu_commandes">Mes commandes</string>
+    <string name="menu_produits">Les produits</string>
+    <string name="menu_magasins">Les magasins</string>
+
+    <string name="title_account">Mon compte</string>
+    <string name="title_search">Résultats de recherche</string>
+    <string name="title_produit">Fiche du produit</string>
+
+    <string name="action_connexion">Connexion</string>
+    <string name="action_recherche">Recherche</string>
+    <string name="action_recherche_hint">Que cherchez-vous ?</string>
+    <string name="action_ajouter">Ajouter au panier</string>
+    <string name="action_more">Autres produis de la catégorie</string>
+    <string name="title_activity_drawer">Drawer</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_magasins">Nos magasins</string>
+</resources>
