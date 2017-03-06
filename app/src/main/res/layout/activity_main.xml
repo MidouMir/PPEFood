@@ -78,17 +78,21 @@
                     android:theme="@style/AppTheme"/>
             </android.support.design.widget.TextInputLayout>
 
-            <Button
+            <LinearLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/action_connexion"
-                android:id="@+id/button"
-                android:layout_below="@+id/layout_pass"
-                android:layout_marginTop="10dp"
-                android:theme="@style/PrimaryButton"
-                android:textColor="@color/colorPrimary"
                 android:background="@color/colorAccent"
-                android:onClick="checkLogin"/>
+                android:layout_below="@+id/layout_pass">
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/action_connexion"
+                    android:id="@+id/button"
+                    android:theme="@style/PrimaryButton"
+                    android:textColor="@color/pageBG"
+                    android:onClick="checkLogin"/>
+            </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
 
