@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.design.widget.FloatingActionButton;
+/*import android.support.design.widget.FloatingActionButton;*/
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -48,9 +48,13 @@ import android.support.v7.widget.Toolbar;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
+
+
 public class Bdd extends AppCompatActivity {
 
-    private FloatingActionButton logout;
+    /*private FloatingActionButton logout;*/
     private String user;
     private String typeCompte;
 
@@ -61,6 +65,9 @@ public class Bdd extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
+    FloatingActionMenu materialDesignFAM;
+    FloatingActionButton floatingActionButton1, floatingActionButton2;
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
     public static final int CONNECTION_TIMEOUT=10000;
@@ -120,6 +127,28 @@ public class Bdd extends AppCompatActivity {
         // variable récupérée
         user = getIntent().getExtras().getString("user");
         typeCompte = getIntent().getExtras().getString("typeCompte");
+
+        // actions selon les boutons
+        materialDesignFAM = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
+        floatingActionButton1 = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item1);
+        floatingActionButton2 = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item2);
+
+
+        floatingActionButton1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent;
+                intent = new Intent(Bdd.this, Compte.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+            }
+        });
+        floatingActionButton2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent;
+                intent = new Intent(Bdd.this, Magasins.class);
+                startActivity(intent);
+            }
+        });
 
 /*        TextView monCompte  = (TextView) mDrawerLayout.findViewById(R.id.menuItem_compte);
         monCompte.setText("Compte " + typeCompte);*/
