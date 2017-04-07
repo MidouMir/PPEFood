@@ -88,8 +88,6 @@ public class Bdd extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         // trouver le spinner
-        spinner_nav = (Spinner) findViewById(R.id.spinner_nav);
-        addItemsToSpinner();
 /*
 
         // Setup Navigation Drawer Layout
@@ -116,6 +114,8 @@ public class Bdd extends AppCompatActivity {
             }
         });
 */
+        spinner_nav = (Spinner) findViewById(R.id.spinner_nav);
+        addItemsToSpinner();
 
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -145,7 +145,7 @@ public class Bdd extends AppCompatActivity {
         floatingActionButton2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent;
-                intent = new Intent(Bdd.this, Magasins.class);
+                intent = new Intent(Bdd.this, Panier.class);
                 startActivity(intent);
             }
         });

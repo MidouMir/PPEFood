@@ -31,12 +31,14 @@
     <string name="title_account">Mon compte</string>
     <string name="title_search">Résultats de recherche</string>
     <string name="title_produit">Fiche du produit</string>
+    <string name="title_panier">Panier d\'achat</string>
 
     <string name="action_connexion">Connexion</string>
     <string name="action_recherche">Recherche</string>
     <string name="action_recherche_hint">Que cherchez-vous ?</string>
     <string name="action_ajouter">Ajouter au panier</string>
     <string name="action_more">Autres produis de la catégorie</string>
+    <string name="action_delete">Supprimer</string>
     <string name="title_activity_drawer">Drawer</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
