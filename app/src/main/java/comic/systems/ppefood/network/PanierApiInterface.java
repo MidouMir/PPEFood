@@ -8,7 +8,7 @@ import retrofit2.http.GET;
 
 public interface PanierApiInterface {
 
-    @GET("inbox.json")
+    @GET("panier")
     Call<List<PanierModele>> getInbox();
 
 }

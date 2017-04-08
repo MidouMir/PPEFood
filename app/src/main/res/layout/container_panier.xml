@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:background="?android:attr/selectableItemBackground"
+    android:clipToPadding="false"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <ImageView
+        android:layout_width="80dp"
+        android:scaleType="fitXY"
+        android:layout_height="60dp"
+        android:id="@+id/photoP"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/idP"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textStyle="bold"
+        android:text="Nom du produit"
+        android:id="@+id/textTitre"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/photoP"
+        android:layout_toLeftOf="@+id/lesActions"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:id="@+id/lesActions"
+        >
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:src="@drawable/moins"
+            android:id="@+id/ajouter"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:backgroundTint="@color/colorAccent"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/quantite"
+            android:text="0"
+            android:textColor="@color/noir"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_toRightOf="@+id/ajouter"
+            />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:src="@drawable/plus_noir"
+            android:id="@+id/diminuer"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:backgroundTint="@color/colorAccent"
+            android:layout_toRightOf="@+id/quantite"
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Catégorie"
+        android:id="@+id/textCat"
+        android:layout_marginLeft="5dp"
+        android:layout_below="@id/textTitre"
+        android:layout_toRightOf="@id/photoP"
+        android:layout_toEndOf="@id/photoP"
+        android:textColor="#666"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Prix"
+        android:id="@+id/textPrix"
+        android:layout_marginLeft="5dp"
+        android:layout_below="@id/textCat"
+        android:layout_toRightOf="@id/photoP"
+        android:textColor="#666"/>
+
+</RelativeLayout>

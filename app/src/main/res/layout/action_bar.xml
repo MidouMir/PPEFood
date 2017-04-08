@@ -20,11 +20,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_launcher" />
+        <!--
         <Spinner
             android:id="@+id/spinner_nav"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:popupBackground="@color/colorPrimaryDark"/>
+        -->
     </RelativeLayout>
 </android.support.v7.widget.Toolbar>

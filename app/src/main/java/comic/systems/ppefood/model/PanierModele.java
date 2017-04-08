@@ -1,17 +1,16 @@
 package comic.systems.ppefood.model;
 
 public class PanierModele {
-    private int ligne;
-    private String nomProduit;
-    private String categorie;
-    private String quantite;
-    private String prix;
-    private String urlPhoto;
-    private int color = -1;
-    private boolean isRead;
+    public int ligne;
+    public String nomProduit;
+    public String categorie;
+    public String quantite;
+    public String prix;
+    public String urlPhoto;
+    public int color = -1;
+    public boolean isRead;
     /*
     private boolean isImportant;
-    */
 
     public PanierModele() {
     }
@@ -47,7 +46,6 @@ public class PanierModele {
     public String getPrix() { return prix; }
     public void setPrix(String prixP) { this.prix = prix; }
 
-    /*
     public boolean isImportant() {
         return isImportant;
     }
@@ -63,7 +61,6 @@ public class PanierModele {
     public void setPicture(String picture) {
         this.picture = picture;
     }
-    */
 
     public boolean isRead() {
         return isRead;
@@ -78,4 +75,6 @@ public class PanierModele {
     public void setColor(int color) {
         this.color = color;
     }
+
+    */
 }

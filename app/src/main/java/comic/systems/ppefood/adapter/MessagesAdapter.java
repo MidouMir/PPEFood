@@ -92,13 +92,17 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
         PanierModele message = messages.get(position);
 
         // displaying text view data
-        holder.from.setText(message.getNomProduit());
-        holder.subject.setText(message.getCategorie());
-        holder.message.setText("Prix unitaire du produit: "+message.getPrix()+"€");
-        holder.timestamp.setText(message.getQuantite());
+        // holder.from.setText(message.getNomProduit());
+        holder.from.setText("");
+        // holder.subject.setText(message.getCategorie());
+        holder.subject.setText("");
+        // holder.message.setText("Prix unitaire du produit: "+message.getPrix()+"€");
+        holder.message.setText("");
+        // holder.timestamp.setText(message.getQuantite());
+        holder.timestamp.setText("");
 
         // displaying the first letter of From in icon text
-        holder.iconText.setText(message.getNomProduit().substring(0, 1));
+        holder.iconText.setText("");
 
         // change the row state to activated
         holder.itemView.setActivated(selectedItems.get(position, false));
@@ -152,8 +156,10 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
     }
 
     private void applyProfilePicture(MyViewHolder holder, PanierModele message) {
-        if (!TextUtils.isEmpty(message.getUrlPhoto())) {
-            Glide.with(mContext).load(message.getUrlPhoto())
+        //if (!TextUtils.isEmpty(message.getUrlPhoto())) {
+        if (!TextUtils.isEmpty("")) {
+            Glide.with(mContext).load("")
+            //Glide.with(mContext).load(message.getUrlPhoto())
                     .thumbnail(0.5f)
                     .crossFade()
                     .transform(new CircleTransform(mContext))
@@ -163,7 +169,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
             holder.iconText.setVisibility(View.GONE);
         } else {
             holder.imgProfile.setImageResource(R.drawable.bg_circle);
-            holder.imgProfile.setColorFilter(message.getColor());
+            //holder.imgProfile.setColorFilter(message.getColor());
             holder.iconText.setVisibility(View.VISIBLE);
         }
     }
@@ -206,7 +212,8 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
 
     @Override
     public long getItemId(int position) {
-        return messages.get(position).getLigne();
+        // return messages.get(position).getLigne();
+        return 1;
     }
 
     private void applyImportant(MyViewHolder holder, PanierModele message) {
@@ -220,7 +227,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
     }
 
     private void applyReadStatus(MyViewHolder holder, PanierModele message) {
-        if (message.isRead()) {
+        if (true) {
             holder.from.setTypeface(null, Typeface.NORMAL);
             holder.subject.setTypeface(null, Typeface.NORMAL);
             holder.from.setTextColor(ContextCompat.getColor(mContext, R.color.subject));

@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class PanierApi extends AppCompatActivity {
-    public static final String BASE_URL = "http://api.androidhive.info/json/";
+    public static final String BASE_URL = "https://demo.comic.systems/android/panier";
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient() {
