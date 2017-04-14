@@ -13,12 +13,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +32,11 @@ public class Panier extends AppCompatActivity {
     private Context context;
     private RecyclerView mRVFish;
     private PanierAdapter mAdapter;
+    private Button totalPrix;
     private FloatingActionButton fab;
+    private Float totalPanier;
+    private Button ajouter;
+    private Button diminuer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +51,6 @@ public class Panier extends AppCompatActivity {
         final Drawable upArrow = getResources().getDrawable(R.drawable.retour);
         upArrow.setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
-
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -75,18 +80,30 @@ public class Panier extends AppCompatActivity {
 
             JSONArray jArray = new JSONArray(result);
 
+            totalPanier = Float.valueOf(0);
+
             // Extract data from json and store into ArrayList as class objects
             for (int i = 0; i < jArray.length(); i++) {
                 nbResult++;
                 JSONObject json_data = jArray.getJSONObject(i);
                 PanierModele resData = new PanierModele();
-                resData.ligne = json_data.getInt("ligne");
-                resData.nomProduit = json_data.getString("nomProduit");
-                resData.categorie = json_data.getString("categorie");
-                resData.quantite = json_data.getString("quantite");
-                resData.prix = json_data.getString("prix");
-                resData.urlPhoto = json_data.getString("urlPhoto");
+                resData.ligne       = json_data.getInt("ligne");
+                resData.commande    = json_data.getString("commande");
+                resData.nomProduit  = json_data.getString("nomProduit");
+                resData.categorie   = json_data.getString("categorie");
+                resData.quantite    = json_data.getString("quantite");
+                resData.prix        = json_data.getString("prix");
+                resData.urlPhoto    = json_data.getString("urlPhoto");
                 data.add(resData);
+
+                // faire le calcul (prix x quantité)
+                NumberFormat formatter = NumberFormat.getNumberInstance();
+                formatter.setMinimumFractionDigits(2);
+                formatter.setMaximumFractionDigits(2);
+                Float prixQuantiteFloat    = Float.parseFloat(resData.prix) * Float.parseFloat(resData.quantite);
+
+                // afficher dans le bouton en question
+                totalPanier = totalPanier + prixQuantiteFloat;
             }
 
             // Setup and Handover data to recyclerview
@@ -96,6 +113,16 @@ public class Panier extends AppCompatActivity {
             mRVFish.setAdapter(mAdapter);
             mRVFish.setItemAnimator(new DefaultItemAnimator());
             mRVFish.setLayoutManager(new LinearLayoutManager(Panier.this));
+
+            totalPrix = (Button) findViewById(R.id.totalPrix);
+
+            // formatter le prix total avec les centimes
+            NumberFormat formatter = NumberFormat.getNumberInstance();
+            formatter.setMinimumFractionDigits(2);
+            formatter.setMaximumFractionDigits(2);
+            String prixQuantite        = formatter.format(totalPanier);
+
+            totalPrix.setText(String.valueOf(prixQuantite));
 
             if( nbResult == 1){
                 Toast.makeText(Panier.this, "Un seul résultat", Toast.LENGTH_LONG).show();

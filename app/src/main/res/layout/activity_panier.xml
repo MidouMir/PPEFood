@@ -24,7 +24,21 @@
             android:titleTextAppearance="@color/colorAccent"
             android:theme="@style/AppTheme"
             app:popupTheme="@style/AppTheme"
-            app:titleTextColor="@color/colorAccent" />
+            app:titleTextColor="@color/colorAccent">
+
+
+            <Button
+                android:id="@+id/totalPrix"
+                android:drawableLeft="@drawable/euro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:backgroundTint="@color/colorAccent"
+                android:textColor="@color/colorPrimary"
+                android:text="TOTAL"
+                />
+
+        </android.support.v7.widget.Toolbar>
 
         <RelativeLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -37,16 +51,11 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/lesResultats"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingTop="10dp"
                 android:layout_weight="1" />
 
         </RelativeLayout>
-
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Envoyer"/>
 
     </LinearLayout>
 

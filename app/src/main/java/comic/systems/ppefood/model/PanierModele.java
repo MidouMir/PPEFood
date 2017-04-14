@@ -2,6 +2,7 @@ package comic.systems.ppefood.model;
 
 public class PanierModele {
     public int ligne;
+    public String commande;
     public String nomProduit;
     public String categorie;
     public String quantite;

@@ -8,6 +8,14 @@
     android:orientation="horizontal"
     android:padding="10dp">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:id="@+id/idC"
+        android:text="TEST"
+        />
+
     <ImageView
         android:layout_width="80dp"
         android:scaleType="fitXY"
@@ -42,7 +50,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:src="@drawable/moins"
-            android:id="@+id/ajouter"
+            android:id="@+id/diminuer"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:backgroundTint="@color/colorAccent"
@@ -58,14 +66,14 @@
             android:paddingBottom="7dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:layout_toRightOf="@+id/ajouter"
+            android:layout_toRightOf="@+id/diminuer"
             />
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:src="@drawable/plus_noir"
-            android:id="@+id/diminuer"
+            android:id="@+id/ajouter"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:backgroundTint="@color/colorAccent"
@@ -90,6 +98,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Prix"
+        android:drawableLeft="@drawable/euro_petit"
+
         android:id="@+id/textPrix"
         android:layout_marginLeft="5dp"
         android:layout_below="@id/textCat"
