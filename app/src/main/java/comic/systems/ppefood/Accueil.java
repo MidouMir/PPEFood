@@ -93,22 +93,24 @@ public class Accueil extends AppCompatActivity {
         typeCompte = getIntent().getExtras().getString("typeCompte");
 
         // actions selon les boutons
-        materialDesignFAM = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
-        floatingActionButton1 = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item1);
-        floatingActionButton2 = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item2);
+        materialDesignFAM       = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
+        floatingActionButton1   = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item1);
+        floatingActionButton2   = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item2);
 
-
+        // actions des boutons en plus
         floatingActionButton1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent;
                 intent = new Intent(Accueil.this, Compte.class);
                 intent.putExtra("user", user);
                 startActivity(intent);
+                materialDesignFAM.performClick();
             }
         });
         floatingActionButton2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 new PanierFetch(user).execute();
+                materialDesignFAM.performClick();
             }
         });
     }

@@ -95,7 +95,7 @@ public class UnProduit extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(UnProduit.this, quantite.getValue() + "  " + nomProd + " " + ( (quantite.getValue() >1 ) ? "ajoutés" : "ajouté" ) + " au panier", Toast.LENGTH_LONG).show();
+                Toast.makeText(UnProduit.this, quantite.getValue() + ( (quantite.getValue() > 1 ) ? " produits ajoutés" : " produit ajouté" ) + " au panier", Toast.LENGTH_LONG).show();
                 quantite.setValue(1);
                 new PanierFetch(user).execute();
                 UnProduit.this.finish();
