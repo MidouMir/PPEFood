@@ -4,30 +4,31 @@ import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
-/*import android.support.design.widget.FloatingActionButton;*/
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -41,18 +42,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
-
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
+/*import android.support.design.widget.FloatingActionButton;*/
 
 
-public class Bdd extends AppCompatActivity {
+public class Accueil extends AppCompatActivity {
 
     /*private FloatingActionButton logout;*/
     private String user;
@@ -136,7 +129,7 @@ public class Bdd extends AppCompatActivity {
         floatingActionButton1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent;
-                intent = new Intent(Bdd.this, Compte.class);
+                intent = new Intent(Accueil.this, Compte.class);
                 intent.putExtra("user", user);
                 startActivity(intent);
             }
@@ -238,12 +231,12 @@ public class Bdd extends AppCompatActivity {
 
         // Get Search item from action bar and Get Search service
         MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchManager searchManager = (SearchManager) Bdd.this.getSystemService(Context.SEARCH_SERVICE);
+        SearchManager searchManager = (SearchManager) Accueil.this.getSystemService(Context.SEARCH_SERVICE);
         if (searchItem != null) {
             searchView = (SearchView) searchItem.getActionView();
         }
         if (searchView != null) {
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(Bdd.this.getComponentName()));
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(Accueil.this.getComponentName()));
             searchView.setIconified(true);
         }
         return true;
@@ -297,7 +290,7 @@ public class Bdd extends AppCompatActivity {
     // Create class AsyncFetch
     private class AsyncFetch extends AsyncTask<String, String, String> {
 
-        ProgressDialog pdLoading = new ProgressDialog(Bdd.this);
+        ProgressDialog pdLoading = new ProgressDialog(Accueil.this);
         HttpURLConnection conn;
         URL url = null;
         String searchQuery;
@@ -397,11 +390,11 @@ public class Bdd extends AppCompatActivity {
             //this method will be running on UI thread
             pdLoading.dismiss();
             if(result.equals("no rows")) {
-                Toast.makeText(Bdd.this, "Aucun produit n'a été trouvé", Toast.LENGTH_LONG).show();
+                Toast.makeText(Accueil.this, "Aucun produit n'a été trouvé", Toast.LENGTH_LONG).show();
             }else{
-                Intent mySearch = new Intent(Bdd.this, Recherche.class);
+                Intent mySearch = new Intent(Accueil.this, Recherche.class);
                 mySearch.putExtra("data", result);
-                Bdd.this.startActivity(mySearch);
+                Accueil.this.startActivity(mySearch);
             }
 
         }
@@ -411,7 +404,7 @@ public class Bdd extends AppCompatActivity {
     // Create class AsyncFetch
     private class PanierFetch extends AsyncTask<String, String, String> {
 
-        ProgressDialog pdLoading = new ProgressDialog(Bdd.this);
+        ProgressDialog pdLoading = new ProgressDialog(Accueil.this);
         HttpURLConnection conn;
         URL url = null;
         String utilisateur;
@@ -511,11 +504,11 @@ public class Bdd extends AppCompatActivity {
             //this method will be running on UI thread
             pdLoading.dismiss();
             if(result.equals("no rows")) {
-                Toast.makeText(Bdd.this, "Aucun produit n'a été trouvé", Toast.LENGTH_LONG).show();
+                Toast.makeText(Accueil.this, "Aucun produit n'a été trouvé", Toast.LENGTH_LONG).show();
             }else{
-                Intent mySearch = new Intent(Bdd.this, Panier.class);
+                Intent mySearch = new Intent(Accueil.this, Panier.class);
                 mySearch.putExtra("dataPanier", result);
-                Bdd.this.startActivity(mySearch);
+                Accueil.this.startActivity(mySearch);
             }
 
         }

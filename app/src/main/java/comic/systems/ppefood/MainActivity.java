@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
                 rememberMe(etUser.getText().toString(),etPass.getText().toString(), result);
                 getUser();
                 /*
-                Intent myIntent = new Intent(MainActivity.this, Bdd.class);
+                Intent myIntent = new Intent(MainActivity.this, Accueil.class);
                 MainActivity.this.startActivity(myIntent);
                 */
 
@@ -259,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void showLogout(String prefUser, String prefType){
         //display log out activity
-        Intent intent   = new Intent(this, Bdd.class);
+        Intent intent   = new Intent(this, Accueil.class);
         intent.putExtra("user",prefUser);
         intent.putExtra("typeCompte",prefType);
         startActivity(intent);

@@ -66,16 +66,16 @@ public class UnProduit extends AppCompatActivity {
         upArrow.setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
+        numProd = getIntent().getExtras().getString("numProd");
+        new AsyncFetch(numProd).execute();
+
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(UnProduit.this, "Ajouté au panier", Toast.LENGTH_LONG).show();
+                Toast.makeText(UnProduit.this, "Ajouté au panier #" + numProd.replace("produit-", "") /*+  */, Toast.LENGTH_LONG).show();
             }
         });
-
-        numProd = getIntent().getExtras().getString("numProd");
-        new AsyncFetch(numProd).execute();
     }
 
     // Create class AsyncFetch
@@ -206,7 +206,7 @@ public class UnProduit extends AppCompatActivity {
 
                     // catégorie du produit
                     TextView leProduitPrix = (TextView)findViewById(R.id.produitPrix);
-                    leProduitPrix.setText(resData.prixP + "€");
+                    leProduitPrix.setText(resData.prixP);
 
                     // images du produit
                     Glide.with(UnProduit.this).load("https://demo.comic.systems" + resData.photoP)

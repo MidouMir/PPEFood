@@ -36,6 +36,9 @@ import java.util.List;
 public class OneFragment extends Fragment{
 
     private String cat;
+    private boolean loaded_plats    = false;
+    private boolean loaded_desserts = false;
+    private boolean loaded_boissons = false;
     private RecyclerView mRVFish;
     private AdapterSearch mAdapter;
 
@@ -193,16 +196,36 @@ public class OneFragment extends Fragment{
                         mRVFish.setAdapter(mAdapter);
                         mRVFish.setLayoutManager(new LinearLayoutManager(getContext()));
 
+                        // définir le contenu comme "chargé"
+                        if(libelle.equals("Sandwich")) {
+                            loaded_plats    = true;
+                        }
+                        if(libelle.equals("Desserts")) {
+                            loaded_desserts = true;
+                        }
+                        if(libelle.equals("Boissons")) {
+                            loaded_boissons = true;
+                        }
                     } catch (JSONException e) {
                         // You to understand what actually error is and handle it appropriately
                         Toast.makeText(getContext(), e.toString(), Toast.LENGTH_LONG).show();
                         Toast.makeText(getContext(), result.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
-
             }
         }
-        new AsyncFetch(cat).execute();
+
+        // fetch que si le contenu n'est pas "chargé"
+        if(cat.equals("Sandwich") && !loaded_plats) {
+            new AsyncFetch(cat).execute();
+        }
+        if(cat.equals("Desserts") && !loaded_desserts) {
+            new AsyncFetch(cat).execute();
+        }
+        if(cat.equals("Boissons") && !loaded_boissons) {
+            new AsyncFetch(cat).execute();
+        }
+
         return view;
     }
 

@@ -36,11 +36,11 @@
 
         <meta-data
             android:name="android.app.default_searchable"
-            android:value=".Bdd" />
+            android:value=".Accueil" />
 
         <activity android:name=".MainActivity" />
         <activity
-            android:name=".Bdd"
+            android:name=".Accueil"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme_Tabs">
             <intent-filter>
@@ -57,10 +57,10 @@
         <activity
             android:name=".Recherche"
             android:label="@string/title_search"
-            android:parentActivityName=".Bdd">
+            android:parentActivityName=".Accueil">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Bdd" />
+                android:value=".Accueil" />
         </activity>
         <activity
             android:name=".Compte"
@@ -73,7 +73,7 @@
             android:label="@string/title_panier">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="comic.systems.ppefood.Bdd" />
+                android:value="comic.systems.ppefood.Accueil" />
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -92,7 +92,7 @@
             android:label="@string/title_activity_magasins">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="comic.systems.ppefood.Bdd" />
+                android:value="comic.systems.ppefood.Accueil" />
         </activity>
     </application>
 
