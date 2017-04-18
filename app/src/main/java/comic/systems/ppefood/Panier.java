@@ -124,11 +124,14 @@ public class Panier extends AppCompatActivity {
 
             totalPrix.setText(String.valueOf(prixQuantite));
 
+            /*
+            // Afficher le nombre de produits différents dans le panier
             if( nbResult == 1){
                 Toast.makeText(Panier.this, "Un seul résultat", Toast.LENGTH_LONG).show();
             }else{
                 Toast.makeText(Panier.this, nbResult + " résultats", Toast.LENGTH_LONG).show();
             }
+            */
 
         } catch (JSONException e) {
             // You to understand what actually error is and handle it appropriately

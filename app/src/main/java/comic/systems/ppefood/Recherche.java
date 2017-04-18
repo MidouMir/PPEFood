@@ -17,6 +17,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import comic.systems.ppefood.helper.DividerItemDecoration;
+
 public class Recherche extends AppCompatActivity {
 
     private Context context;
@@ -62,6 +64,7 @@ public class Recherche extends AppCompatActivity {
 
             // Setup and Handover data to recyclerview
             mRVFish = (RecyclerView) findViewById(R.id.lesResultats);
+            mRVFish.addItemDecoration(new DividerItemDecoration(getApplicationContext()));
             mAdapter = new AdapterSearch(Recherche.this, data);
             mRVFish.setAdapter(mAdapter);
             mRVFish.setLayoutManager(new LinearLayoutManager(Recherche.this));

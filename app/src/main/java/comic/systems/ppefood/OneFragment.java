@@ -33,6 +33,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import comic.systems.ppefood.helper.DividerItemDecoration;
+
 public class OneFragment extends Fragment{
 
     private String cat;
@@ -192,6 +194,7 @@ public class OneFragment extends Fragment{
 
                         // Setup and Handover data to recyclerview
                         mRVFish = (RecyclerView) view.findViewById(R.id.lesResultats);
+                        mRVFish.addItemDecoration(new DividerItemDecoration(getContext()));
                         mAdapter = new AdapterSearch(getContext(), data);
                         mRVFish.setAdapter(mAdapter);
                         mRVFish.setLayoutManager(new LinearLayoutManager(getContext()));

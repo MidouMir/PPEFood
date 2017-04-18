@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -16,6 +17,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -80,36 +82,6 @@ public class Accueil extends AppCompatActivity {
         //getSupportActionBar().setLogo(R.mipmap.ic_launcher);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        // trouver le spinner
-/*
-
-        // Setup Navigation Drawer Layout
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close) {
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                Toast.makeText(Bdd.this, "Action", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-            }
-        };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-        mDrawerLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mDrawerToggle.syncState();
-            }
-        });
-        spinner_nav = (Spinner) findViewById(R.id.spinner_nav);
-        addItemsToSpinner();
-*/
-
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
@@ -139,52 +111,7 @@ public class Accueil extends AppCompatActivity {
                 new PanierFetch(user).execute();
             }
         });
-
-/*        TextView monCompte  = (TextView) mDrawerLayout.findViewById(R.id.menuItem_compte);
-        monCompte.setText("Compte " + typeCompte);*/
     }
-
-    /*
-    public void addItemsToSpinner() {
-
-        ArrayList<String> list = new ArrayList<String>();
-        list.add("Accueil");
-        list.add("Compte");
-        list.add("Magasins");
-
-        // Custom ArrayAdapter with spinner item layout to set popup background
-        CustomSpinnerAdapter spinAdapter = new CustomSpinnerAdapter(getApplicationContext(), list);
-        spinner_nav.setAdapter(spinAdapter);
-        spinner_nav.setOnItemSelectedListener(new OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapter, View v, int position, long id) {
-                // On selecting a spinner item
-                String item = adapter.getItemAtPosition(position).toString();
-                Intent intent;
-                switch(item) {
-                    case "Accueil":
-                        // rien
-                        break;
-                    case "Compte":
-                        intent = new Intent(Bdd.this, Compte.class);
-                        intent.putExtra("user", user);
-                        startActivity(intent);
-                        break;
-                    case "Magasins":
-                        intent = new Intent(Bdd.this, Magasins.class);
-                        startActivity(intent);
-                        break;
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-
-            }
-        });
-
-    }
-    */
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -272,6 +199,23 @@ public class Accueil extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
+    }
+
+    // back to exit
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setMessage("Voulez-vous vraiment quitter l'application ?")
+                .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Accueil.super.onBackPressed();
+                    }
+                })
+                .setNegativeButton("Non", null)
+                .show();
+
+
     }
 
     // Every time when you press search button on keypad an Activity is recreated which in turn calls this function

@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
-    android:outlineProvider="background"
+    android:background="?android:attr/selectableItemBackground"
+    android:clipToPadding="false"
     android:orientation="horizontal"
     android:padding="10dp">
 
@@ -33,10 +34,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Prix €"
+        android:text="Prix"
         android:id="@+id/textPrix"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/noir"
+        android:drawableLeft="@drawable/euro_petit"
+        android:background="@drawable/arrondi_jaune"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
