@@ -32,7 +32,7 @@ public class Panier extends AppCompatActivity {
     private Context context;
     private RecyclerView mRVFish;
     private PanierAdapter mAdapter;
-    private Button totalPrix;
+    private static Button totalPrix;
     private FloatingActionButton fab;
     private Float totalPanier;
     private Button ajouter;
@@ -139,5 +139,13 @@ public class Panier extends AppCompatActivity {
             Toast.makeText(Panier.this, "JSONException2 -> " + result.toString(), Toast.LENGTH_LONG).show();
             Toast.makeText(Panier.this, "JSONException3 -> " + new RuntimeException(e), Toast.LENGTH_LONG).show();
         }
+    }
+
+    public static Button getTotalPrix() {
+        return totalPrix;
+    }
+
+    public static void setTotalPrix(Button totalPrix) {
+        Panier.totalPrix = totalPrix;
     }
 }

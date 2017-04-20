@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -134,16 +135,27 @@ public class PanierAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ajouter.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Button totalPanier      = (Button) view.findViewById(R.id.totalPrix);
-                    //Float prixPanier        = Float.parseFloat(totalPanier.getText().toString());
-                    //Float prixProduit       = Float.parseFloat(String.valueOf(textPrix.getText().toString()));
-                    //NumberFormat formatter  = NumberFormat.getNumberInstance();
-                    //formatter.setMinimumFractionDigits(2);
-                    //formatter.setMaximumFractionDigits(2);
-                    //String lePrix = formatter.format(prixPanier + prixProduit);
-                    // incrémenter le prix du panier
-                    //totalPanier.setText(lePrix);
 
+                    Button totalPanier      =  Panier.getTotalPrix();
+                    float prixPanier    = 0;
+                    float prixProduit   = 0;
+                    try {
+                         prixPanier = Float.parseFloat(totalPanier.getText().toString().replace(",", "."));
+                         prixProduit = Float.parseFloat(textPrix.getText().toString().replace(",", "."));
+                    }
+                    catch (NumberFormatException exp)
+                    {
+                        Log.e("Erreur de conversion: ",totalPanier.getText().toString());
+                    }
+
+                    NumberFormat formatter = NumberFormat.getNumberInstance();
+                    formatter.setMinimumFractionDigits(2);
+                    formatter.setMaximumFractionDigits(2);
+
+                    // incrémenter le prix du panier
+                    float total = prixPanier + prixProduit;
+                    String res  = formatter.format(total);
+                    totalPanier.setText(res.replace(".", ","));
                     // Champs à envoyer
                     final String laQuantite = textQuantite.getText().toString();
                     final String leProduit  = textTitre.getText().toString();
@@ -155,13 +167,35 @@ public class PanierAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     // Lancer la requête pour mettre à jour la quantité
                     new QuantiteUpdate(laQuantite, leProduit, laCommande, "ajouter").execute();
                     textQuantite.setText( nouvelleQuantite );
-                    // Toast.makeText(context, "+1 pour " + laCommande + "\nTotal: " /*+ lePrix*/, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(context, "+1 pour " + laCommande /*+ "\nTotal: " + prixPanier*/, Toast.LENGTH_LONG).show();
                 }
             });
             ImageButton diminuer = (ImageButton) itemView.findViewById(R.id.diminuer);
             diminuer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    // bouton du panier
+                    Button totalPanier      =  Panier.getTotalPrix();
+                    float prixPanier        = 0;
+                    float prixProduit       = 0;
+                    //
+                    try {
+                        prixPanier = Float.parseFloat(totalPanier.getText().toString().replace(",", "."));
+                        prixProduit = Float.parseFloat(textPrix.getText().toString().replace(",", "."));
+                    }
+                    catch (NumberFormatException exp)
+                    {
+                        Log.e("Erreur de conversion: ",totalPanier.getText().toString());
+                    }
+
+                    NumberFormat formatter = NumberFormat.getNumberInstance();
+                    formatter.setMinimumFractionDigits(2);
+                    formatter.setMaximumFractionDigits(2);
+
+                    // incrémenter le prix du panier
+                    float total = prixPanier - prixProduit;
+                    String res  = formatter.format(total);
+                    totalPanier.setText(res.replace(".", ","));
                     // Champs à envoyer
                     final String laQuantite = textQuantite.getText().toString();
                     final String leProduit  = textTitre.getText().toString();
