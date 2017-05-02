@@ -95,10 +95,12 @@ public class UnProduit extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(UnProduit.this, quantite.getValue() + ( (quantite.getValue() > 1 ) ? " produits ajoutés" : " produit ajouté" ) + " au panier", Toast.LENGTH_LONG).show();
+                Toast.makeText(UnProduit.this, quantite.getValue() +
+                        ( (quantite.getValue() > 1 ) ? " produits ajoutés" : " produit ajouté" )
+                        + " au panier", Toast.LENGTH_LONG).show();
+                String laQte    = String.valueOf(quantite.getValue());
+                new PanierAjout(user, laQte, numProd).execute();
                 quantite.setValue(1);
-                new PanierFetch(user).execute();
-                UnProduit.this.finish();
             }
         });
     }
@@ -282,6 +284,123 @@ public class UnProduit extends AppCompatActivity {
         }
     }
 
+    private class PanierAjout extends AsyncTask<String, String, String> {
+
+        ProgressDialog pdLoading = new ProgressDialog(UnProduit.this);
+        HttpURLConnection conn;
+        URL url = null;
+        String utilisateur;
+        String quantite;
+        String numProd;
+
+        public PanierAjout(String utilisateur, String quantite, String numProd){
+            this.utilisateur    = utilisateur;
+            this.quantite       = quantite;
+            this.numProd        = numProd;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            //this method will be running on UI thread
+            pdLoading.setMessage("\tChargement...");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                // Enter URL address where your php file resides
+                url = new URL("https://demo.comic.systems/android/panier_ajout");
+
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return e.toString();
+            }
+            try {
+
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+
+                // setDoInput and setDoOutput to true as we send and recieve data
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                // add parameter to our above url
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("utilisateur", utilisateur)
+                        .appendQueryParameter("quantite", quantite)
+                        .appendQueryParameter("numProd", numProd);
+                String query = builder.build().getEncodedQuery();
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return e1.toString();
+            }
+
+            try {
+
+                int response_code = conn.getResponseCode();
+
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
+
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+
+                    // Pass data to onPostExecute method
+                    return (result.toString());
+
+                } else {
+                    return("Connection error");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return e.toString();
+            } finally {
+                conn.disconnect();
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            //this method will be running on UI thread
+            pdLoading.dismiss();
+            if(result.contains("Erreur")) {
+                Toast.makeText(UnProduit.this, "Le panier est vide\n"+result, Toast.LENGTH_LONG).show();
+            }else{
+                new PanierFetch(utilisateur).execute();
+                UnProduit.this.finish();
+            }
+        }
+    }
+
     private class PanierFetch extends AsyncTask<String, String, String> {
 
         ProgressDialog pdLoading = new ProgressDialog(UnProduit.this);
@@ -384,7 +503,7 @@ public class UnProduit extends AppCompatActivity {
             //this method will be running on UI thread
             pdLoading.dismiss();
             if(result.equals("no rows")) {
-                Toast.makeText(UnProduit.this, "Le panier est vide", Toast.LENGTH_LONG).show();
+                Toast.makeText(UnProduit.this, "Aucun produit n'a été trouvé", Toast.LENGTH_LONG).show();
             }else{
                 Intent mySearch = new Intent(UnProduit.this, Panier.class);
                 mySearch.putExtra("dataPanier", result);
