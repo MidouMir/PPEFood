@@ -122,7 +122,7 @@ public class Panier extends AppCompatActivity {
                             .setAction("Payer", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    Toast.makeText(Panier.this, "Paiemement de " + totalPanier + "€ . . .", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Panier.this, "Passage au paiement", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(Panier.this, Paiement.class);
                                     intent.putExtra("user", user);
                                     startActivity(intent);

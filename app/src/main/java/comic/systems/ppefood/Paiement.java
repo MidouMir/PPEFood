@@ -206,6 +206,7 @@ public class Paiement extends AppCompatActivity {
             public int idU;
             public String totalQte;
             public String totalPrix;
+            public String adresseU;
         }
 
         @Override
@@ -226,20 +227,26 @@ public class Paiement extends AppCompatActivity {
                     resData.idU = json_data.getInt("idU");
                     resData.totalQte = json_data.getString("totalQte");
                     resData.totalPrix = json_data.getString("totalPrix");
+                    resData.adresseU = json_data.getString("adresseU");
 
-                    // nom du produit
-                    /*
-                    TextView leProduit = (TextView)findViewById(R.id.produitTitre);
-                    leProduit.setText(resData.nomP);
-                    */
+                    Float floatPrix = Float.valueOf(resData.totalPrix);
 
-                    // catégorie du produit
+                    NumberFormat formatter = NumberFormat.getNumberInstance();
+                    formatter.setMinimumFractionDigits(2);
+                    formatter.setMaximumFractionDigits(2);
+                    String prixQuantite        = formatter.format(floatPrix);
+
+                    // quantité totale de produits
                     TextView champTotalQte = (TextView)findViewById(R.id.totalQte);
-                    champTotalQte.setText("Nombre de produits: " + resData.totalQte);
+                    champTotalQte.setText(resData.totalQte);
 
-                    // catégorie du produit
+                    // adresse de livraison
+                    TextView leProduitDesc = (TextView)findViewById(R.id.adresseLivraison);
+                    leProduitDesc.setText(resData.adresseU);
+
+                    // prix total du panier
                     TextView champTotalPrix = (TextView)findViewById(R.id.totalPrix);
-                    champTotalPrix.setText(resData.totalPrix);
+                    champTotalPrix.setText(prixQuantite);
 
                     /*
                     // images du produit
@@ -247,10 +254,6 @@ public class Paiement extends AppCompatActivity {
                             .placeholder(R.drawable.no_img)
                             .error(R.drawable.no_img)
                             .into((ImageView)findViewById(R.id.photoP));
-
-                    // description du produit
-                    TextView leProduitDesc = (TextView)findViewById(R.id.produitDesc);
-                    leProduitDesc.setText("« " + resData.description + " »");
                     */
 
                 } catch (JSONException e) {
