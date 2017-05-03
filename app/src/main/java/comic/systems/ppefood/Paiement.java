@@ -80,27 +80,6 @@ public class Paiement extends AppCompatActivity {
         upArrow.setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
-        /*
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Toast.makeText(Panier.this, "Payer ?", Toast.LENGTH_LONG).show();
-                Snackbar snackbar = Snackbar
-                        .make(fab, "Valider votre commande ?", Snackbar.LENGTH_LONG)
-                        .setAction("Payer", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Toast.makeText(Paiement.this, "Page de paiement", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                View snackbarView = snackbar.getView();
-                snackbarView.setBackgroundColor(ContextCompat.getColor(Paiement.this, R.color.colorPrimary));;
-                snackbar.show();
-            }
-        });
-        */
-
     }
 
     // Create class AsyncFetch
@@ -241,8 +220,8 @@ public class Paiement extends AppCompatActivity {
                     champTotalQte.setText(resData.totalQte);
 
                     // adresse de livraison
-                    TextView leProduitDesc = (TextView)findViewById(R.id.adresseLivraison);
-                    leProduitDesc.setText(resData.adresseU);
+                    TextView champAdresse = (TextView)findViewById(R.id.adresseLivraison);
+                    champAdresse.setText(resData.adresseU);
 
                     // prix total du panier
                     TextView champTotalPrix = (TextView)findViewById(R.id.totalPrix);

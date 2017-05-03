@@ -120,7 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/card_margin"
             android:layout_marginBottom="0dp"
-            android:layout_padding="5dp"
+            android:padding="5dp"
             card_view:cardCornerRadius="@dimen/card_album_radius">
 
             <RelativeLayout
