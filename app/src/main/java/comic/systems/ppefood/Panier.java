@@ -1,6 +1,8 @@
 package comic.systems.ppefood;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -38,6 +40,9 @@ public class Panier extends AppCompatActivity {
     private Button ajouter;
     private Button diminuer;
 
+    public static String PREFS_NAME     = "mapref";
+    public static String PREF_USERNAME  = "user";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,25 +56,6 @@ public class Panier extends AppCompatActivity {
         final Drawable upArrow = getResources().getDrawable(R.drawable.retour);
         upArrow.setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
-
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Toast.makeText(Panier.this, "Payer ?", Toast.LENGTH_LONG).show();
-                Snackbar snackbar = Snackbar
-                        .make(fab, "Valider votre commande ?", Snackbar.LENGTH_LONG)
-                        .setAction("Payer", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Toast.makeText(Panier.this, "Page de paiement", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                View snackbarView = snackbar.getView();
-                snackbarView.setBackgroundColor(ContextCompat.getColor(Panier.this, R.color.colorPrimary));;
-                snackbar.show();
-            }
-        });
 
         String result = getIntent().getExtras().getString("dataPanier");
         int nbResult = 0;
@@ -124,14 +110,29 @@ public class Panier extends AppCompatActivity {
 
             totalPrix.setText(String.valueOf(prixQuantite));
 
-            /*
-            // Afficher le nombre de produits différents dans le panier
-            if( nbResult == 1){
-                Toast.makeText(Panier.this, "Un seul résultat", Toast.LENGTH_LONG).show();
-            }else{
-                Toast.makeText(Panier.this, nbResult + " résultats", Toast.LENGTH_LONG).show();
-            }
-            */
+            SharedPreferences pref = getSharedPreferences(PREFS_NAME,MODE_PRIVATE);
+            final String user = pref.getString(PREF_USERNAME, null);
+
+            fab = (FloatingActionButton) findViewById(R.id.fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar snackbar = Snackbar
+                            .make(fab, "Valider votre commande ?", Snackbar.LENGTH_LONG)
+                            .setAction("Payer", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Toast.makeText(Panier.this, "Paiemement de " + totalPanier + "€ . . .", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(Panier.this, Paiement.class);
+                                    intent.putExtra("user", user);
+                                    startActivity(intent);
+                                }
+                            });
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(ContextCompat.getColor(Panier.this, R.color.colorPrimary));;
+                    snackbar.show();
+                }
+            });
 
         } catch (JSONException e) {
             // You to understand what actually error is and handle it appropriately

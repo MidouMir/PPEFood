@@ -73,7 +73,14 @@
             android:label="@string/title_panier">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="comic.systems.ppefood.Accueil" />
+                android:value=".Accueil" />
+        </activity>
+        <activity
+            android:name=".Paiement"
+            android:label="@string/title_paiement">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Panier" />
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

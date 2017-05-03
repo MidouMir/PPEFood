@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/search_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:titleTextColor="@color/colorAccent"
+            android:elevation="4dp"
+            android:popupTheme="@color/colorAccent"
+            android:titleTextAppearance="@color/colorAccent"
+            android:theme="@style/AppTheme"
+            app:popupTheme="@style/AppTheme"
+            app:titleTextColor="@color/colorAccent">
+
+
+            <Button
+                android:id="@+id/totalPrix"
+                android:drawableLeft="@drawable/euro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:backgroundTint="@color/colorAccent"
+                android:textColor="@color/colorPrimary"
+                android:text="TOTAL"
+                />
+
+        </android.support.v7.widget.Toolbar>
+
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".Paiement">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nombre de produits"
+                android:id="@+id/totalQte"
+                android:gravity="center"
+                android:padding="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Méthode de paiement"
+                android:id="@+id/titrePaiement"
+                android:layout_marginTop="40dp"
+                android:padding="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="70dp"
+                android:orientation="horizontal"
+                android:id="@+id/ligne1"
+                android:weightSum="2" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:weightSum="2"
+                    android:layout_height="match_parent" >
+
+                    <ImageButton
+                        android:id="@+id/card_visa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/visa" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:weightSum="2"
+                    android:layout_height="match_parent" >
+
+                    <ImageButton
+                        android:id="@+id/card_mastercard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/mastercard" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="165dp"
+                android:orientation="horizontal"
+                android:id="@+id/ligne2"
+                android:weightSum="2" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:weightSum="2"
+                    android:layout_height="match_parent" >
+
+                    <ImageButton
+                        android:id="@+id/card_maestro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/maestro" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:weightSum="2"
+                    android:layout_height="match_parent" >
+
+                    <ImageButton
+                        android:id="@+id/card_paypal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/paypal" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/lesResultats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:layout_weight="1" />
+            -->
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <!--
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        app:backgroundTint="@color/colorPrimary"
+        android:layout_margin="@dimen/fab_margin"
+        android:elevation="5dp"
+        android:src="@drawable/check" />
+    -->
+
+</android.support.design.widget.CoordinatorLayout>
