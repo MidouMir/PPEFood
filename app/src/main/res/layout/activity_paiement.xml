@@ -138,6 +138,82 @@
                     android:id="@+id/titrePaiement"
                     android:padding="10dp"/>
 
+
+
+                <LinearLayout
+                    android:id="@+id/ligne1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <ImageButton
+                        android:id="@+id/card_laMethode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/SecondaryButton"
+                        android:src="@drawable/paiement_paypal" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ligne2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="145dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:weightSum="2">
+
+                        <ImageButton
+                            android:id="@+id/card_maestro"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:theme="@style/SecondaryButton"
+                            android:src="@drawable/paiement_maestro" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:weightSum="2">
+
+                        <ImageButton
+                            android:id="@+id/card_paypal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:theme="@style/SecondaryButton"
+                            android:src="@drawable/paiement_paypal" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <!--
+            <RelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:context=".Paiement">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/paiement_methode_choix"
+                    android:id="@+id/titrePaiement"
+                    android:padding="10dp"/>
+
                 <LinearLayout
                     android:id="@+id/ligne1"
                     android:layout_width="match_parent"
@@ -217,6 +293,8 @@
                 </LinearLayout>
 
             </RelativeLayout>
+            -->
+
         </android.support.v7.widget.CardView>
 
     </LinearLayout>

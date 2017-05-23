@@ -186,6 +186,8 @@ public class Paiement extends AppCompatActivity {
             public String totalQte;
             public String totalPrix;
             public String adresseU;
+            public String moyenPaiement;
+            public String detailPaiement;
         }
 
         @Override
@@ -207,6 +209,8 @@ public class Paiement extends AppCompatActivity {
                     resData.totalQte = json_data.getString("totalQte");
                     resData.totalPrix = json_data.getString("totalPrix");
                     resData.adresseU = json_data.getString("adresseU");
+                    resData.moyenPaiement = json_data.getString("moyenPaiement");
+                    resData.detailPaiement = json_data.getString("detailPaiement");
 
                     Float floatPrix = Float.valueOf(resData.totalPrix);
 
@@ -225,6 +229,13 @@ public class Paiement extends AppCompatActivity {
 
                     // prix total du panier
                     TextView champTotalPrix = (TextView)findViewById(R.id.totalPrix);
+                    champTotalPrix.setText(prixQuantite);
+
+                    if(resData.moyenPaiement.equals("VISA")) {
+                        // ((ImageButton) view).setImageResource(R.drawable.icon2);
+                    }
+                    // prix total du panier
+                    TextView leMoyenPaiement = (TextView)findViewById(R.id.totalPrix);
                     champTotalPrix.setText(prixQuantite);
 
                     /*
