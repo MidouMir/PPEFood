@@ -21,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -231,9 +232,20 @@ public class Paiement extends AppCompatActivity {
                     TextView champTotalPrix = (TextView)findViewById(R.id.totalPrix);
                     champTotalPrix.setText(prixQuantite);
 
-                    if(resData.moyenPaiement.equals("VISA")) {
-                        // ((ImageButton) view).setImageResource(R.drawable.icon2);
+                    if((resData.moyenPaiement).equals("VISA")) {
+                        ImageButton lePaiement  = (ImageButton)findViewById(R.id.card_laMethode);
+                        lePaiement.setImageResource(R.drawable.paiement_visa);
+                    }else if((resData.moyenPaiement).equals("MasterCard")) {
+                        ImageButton lePaiement  = (ImageButton)findViewById(R.id.card_laMethode);
+                        lePaiement.setImageResource(R.drawable.paiement_mastercard);
+                    }else if((resData.moyenPaiement).equals("Maestro")) {
+                        ImageButton lePaiement  = (ImageButton)findViewById(R.id.card_laMethode);
+                        lePaiement.setImageResource(R.drawable.paiement_maestro);
+                    }else if((resData.moyenPaiement).equals("PayPal")) {
+                        ImageButton lePaiement  = (ImageButton)findViewById(R.id.card_laMethode);
+                        lePaiement.setImageResource(R.drawable.paiement_paypal);
                     }
+
                     // prix total du panier
                     TextView leMoyenPaiement = (TextView)findViewById(R.id.totalPrix);
                     champTotalPrix.setText(prixQuantite);

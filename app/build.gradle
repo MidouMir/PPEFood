@@ -50,4 +50,12 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     // test compile
     testCompile 'junit:junit:4.12'
+    // design carte de paiement
+    compile 'com.movile:creditcardguide:1.2-beta'
+    compile 'com.github.Movile:CreditCardView:5f1450aa63'
+}
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
 }

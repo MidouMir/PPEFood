@@ -22,6 +22,7 @@
     <string name="compte_adresse">Votre adresse</string>
     <string name="compte_codepostal">Votre code postal</string>
     <string name="compte_nbCommande">Vos commandes</string>
+    <string name="compte_modePaiement">Votre moyen de paiement</string>
 
     <string name="menu_compte">Mon compte</string>
     <string name="menu_commandes">Mes commandes</string>
@@ -45,6 +46,10 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_magasins">Nos magasins</string>
     <string name="title_paiement">Paiement</string>
-    <string name="paiement_methode">Votre moyen de paiement</string>
-    <string name="paiement_methode_choix">Choisir un autre mode de paiement</string>
+    <string name="paiement_methode">Votre moyen de paiement actuel</string>
+    <string name="paiement_methode_choix">Définir un autre mode de paiement</string>
+
+    <!-- Card Form pour le mode de paiement -->
+    <string name="label_owner">owner</string>
+    <string name="valid_thru">valid thru</string>
 </resources>

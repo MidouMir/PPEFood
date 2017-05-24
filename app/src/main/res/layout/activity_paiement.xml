@@ -138,8 +138,6 @@
                     android:id="@+id/titrePaiement"
                     android:padding="10dp"/>
 
-
-
                 <LinearLayout
                     android:id="@+id/ligne1"
                     android:layout_width="match_parent"
@@ -165,35 +163,14 @@
                     android:orientation="horizontal"
                     android:weightSum="2">
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:weightSum="2">
-
-                        <ImageButton
-                            android:id="@+id/card_maestro"
+                        <Button
+                            android:id="@+id/card_choix"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:theme="@style/SecondaryButton"
-                            android:src="@drawable/paiement_maestro" />
+                            android:text="@string/paiement_methode_choix"
+                            android:textColor="@color/colorPrimary"
+                            android:theme="@style/SecondaryButton" />
 
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:weightSum="2">
-
-                        <ImageButton
-                            android:id="@+id/card_paypal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:theme="@style/SecondaryButton"
-                            android:src="@drawable/paiement_paypal" />
-
-                    </LinearLayout>
                 </LinearLayout>
 
             </RelativeLayout>

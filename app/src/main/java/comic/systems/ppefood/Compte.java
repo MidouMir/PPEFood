@@ -1,7 +1,6 @@
 package comic.systems.ppefood;
 
 import android.app.ProgressDialog;
-import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,12 +9,9 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,7 +25,6 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -59,6 +54,8 @@ public class Compte extends AppCompatActivity {
     private EditText cptMail;
     private TextView cptType;
 
+    // final CreditCardView creditCardView = (CreditCardView) findViewById(R.id.creditCardView);
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compte);
@@ -79,6 +76,7 @@ public class Compte extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
         /*logout = (FloatingActionButton) findViewById(R.id.fabLogout);*/
+        /*
         logout = (Button) findViewById(R.id.btnLogout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,14 +84,27 @@ public class Compte extends AppCompatActivity {
                 confirmDialog();
             }
         });
+        */
 
         user = getIntent().getExtras().getString("user");
         new AsyncFetch(user).execute();
         TextView titre = (TextView)findViewById(R.id.titreTitre);
         titre.setText(user);
 
+        /*
+        creditCardView.chooseFlag(IssuerCode.VISACREDITO);
+        creditCardView.setTextExpDate("12/19");
+        creditCardView.setTextNumber("5555 4444 3333 1111");
+        creditCardView.setTextOwner("Felipe Silvestre");
+        creditCardView.setTextCVV("432");
+        */
+
+        // Warning: this is for development purposes only and should never be done outside of this example app.
+        // Failure to set FLAG_SECURE exposes your app to screenshots allowing other apps to steal card information.
+        // getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+
         // enregistrer les informations
-        saveCmpt = (Button) findViewById(R.id.btnSave);
+        saveCmpt        = (Button) findViewById(R.id.btnSave);
         // trouver les champs
         cptNom          = (EditText) findViewById(R.id.compteNom);
         cptPrenom       = (EditText) findViewById(R.id.comptePrenom);
