@@ -13,12 +13,17 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +41,9 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Compte extends AppCompatActivity {
     private String user;
@@ -53,6 +61,8 @@ public class Compte extends AppCompatActivity {
     private EditText cptSiret;
     private EditText cptMail;
     private TextView cptType;
+    private EditText cptPaiement;
+    private ImageView iconePaiement;
 
     // final CreditCardView creditCardView = (CreditCardView) findViewById(R.id.creditCardView);
 
@@ -113,22 +123,169 @@ public class Compte extends AppCompatActivity {
         cptSiret        = (EditText) findViewById(R.id.compteSiret);
         cptMail         = (EditText) findViewById(R.id.titreTitre);
         cptType         = (TextView) findViewById(R.id.compteType);
+        cptPaiement     = (EditText) findViewById(R.id.detailPaiement);
+
+        iconePaiement   = (ImageView) findViewById(R.id.iconePaiement);
+
+        RadioGroup rdgp = (RadioGroup)findViewById(R.id.radiogroup_libelle);
+        final RadioButton rb1 = (RadioButton)findViewById(R.id.libelle_carte);
+        final RadioButton rb2 = (RadioButton)findViewById(R.id.libelle_paypal);
+
+        rdgp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // checkedId is the RadioButton selected
+                RadioButton rb  = (RadioButton)findViewById(checkedId);
+                if( rb.getText().equals("Carte bancaire") ){
+                    cptPaiement.setText("");
+                    cptPaiement.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
+                    iconePaiement.setImageResource(R.drawable.carte_credit);
+                }else{
+                    cptPaiement.setText("");
+                    cptPaiement.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+                    iconePaiement.setImageResource(R.drawable.paypal);
+                }
+            }
+        });
+
+        cptPaiement.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(cptPaiement.getText().toString().trim().equals("")){
+                    iconePaiement.setImageResource(R.drawable.carte_credit);
+                    cptPaiement.setError("Mode de paiement vide");
+                }else if(rb2.isChecked()) {
+                    switchIconePaiement();
+                    if (!paiementValidMail(cptPaiement.getText().toString())){
+                        cptPaiement.setError("Vérifiez l'adresse mail");
+                    }
+                }else{
+                    switchIconePaiement();
+                    if(!paiementValidCB(cptPaiement.getText().toString(), switchModePaiement())){
+                        if(switchModePaiement().equals("VISA")){
+                            cptPaiement.setError("Votre VISA doit comporter 13 chiffres");
+                        }else if(switchModePaiement().equals("MasterCard")){
+                            cptPaiement.setError("Votre MasterCard doit avoir entre 13 et 19 caractères");
+                        }else{
+                            cptPaiement.setError("Aucune carte ne commence par " + cptPaiement.getText().toString().charAt(0) );
+                        }
+                    }
+                }
+            }
+        });
+
+        cptPaiement.setError(null);
+
         // envoyer les donnéees du formulaire
         saveCmpt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)  {
-                new AsyncUpdate().execute(
-                        "id-"+saveCmpt.getId(),
-                        cptNom.getText().toString(),
-                        cptPrenom.getText().toString(),
-                        cptAdresse.getText().toString(),
-                        cptComm.getText().toString(),
-                        cptSiret.getText().toString(),
-                        cptMail.getText().toString(),
-                        cptType.getText().toString()
-                );
+                if(cptPaiement.getText().toString().trim().equals("")){
+                    iconePaiement.setImageResource(R.drawable.carte_credit);
+                    cptPaiement.setError("Mode de paiement vide");
+                }else if(rb2.isChecked()) {
+                    switchIconePaiement();
+                    if (!paiementValidMail(cptPaiement.getText().toString())){
+                        cptPaiement.setError("Vérifiez l'adresse mail");
+                    }
+                }else{
+                    switchIconePaiement();
+                    if(!paiementValidCB(cptPaiement.getText().toString(), switchModePaiement())){
+                        if(switchModePaiement().equals("VISA")){
+                            cptPaiement.setError("Votre VISA doit comporter 13 chiffres");
+                        }else if(switchModePaiement().equals("MasterCard")){
+                            cptPaiement.setError("Votre MasterCard doit avoir entre 13 et 19 caractères");
+                        }else{
+                            cptPaiement.setError("Aucune carte ne commence par " + cptPaiement.getText().toString().charAt(0) );
+                        }
+                    }
+                }
+                if(cptPaiement.getError() == null) {
+                    new AsyncUpdate().execute(
+                            "id-"+saveCmpt.getId(),
+                            cptNom.getText().toString(),
+                            cptPrenom.getText().toString(),
+                            cptAdresse.getText().toString(),
+                            cptComm.getText().toString(),
+                            cptSiret.getText().toString(),
+                            cptMail.getText().toString(),
+                            cptType.getText().toString(),
+                            cptPaiement.getText().toString(),
+                            String.valueOf(switchModePaiement())
+                    );
+                    cptPaiement.clearFocus();
+                }else{
+                    Toast.makeText(Compte.this, "Il y a une erreur...", Toast.LENGTH_LONG).show();
+                }
             }
         });
+
+    }
+
+    public void switchIconePaiement() {
+        final RadioButton rbp = (RadioButton)findViewById(R.id.libelle_paypal);
+        if(rbp.isChecked()){
+            iconePaiement.setImageResource(R.drawable.paypal);
+        }else{
+            switch ((cptPaiement.getText()).charAt(0)) {
+                case '4':
+                    iconePaiement.setImageResource(R.drawable.visa);
+                    break;
+                case '5':
+                    iconePaiement.setImageResource(R.drawable.mastercard);
+                    break;
+                default:
+                    iconePaiement.setImageResource(R.drawable.carte_credit);
+            }
+        }
+    }
+
+    public String switchModePaiement() {
+        String resultat = "";
+        if((cptPaiement.getText()).toString().contains("@")){
+            resultat    = "PayPal";
+        }else{
+            switch ((cptPaiement.getText()).charAt(0)) {
+                case '4':
+                    resultat = "VISA";
+                    break;
+                case '5':
+                    resultat = "MasterCard";
+                    break;
+                default:
+                    resultat = "vide";
+            }
+        }
+        return resultat;
+    }
+
+    // vérifier l'adresse mail
+    private boolean paiementValidMail(String adresseMailPayPal) {
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(adresseMailPayPal);
+        return matcher.matches();
+    }
+
+    // vérifier la carte
+    private boolean paiementValidCB(String carteUtilisee, String leModePaiement) {
+        if (carteUtilisee != null && leModePaiement.equals("VISA") && carteUtilisee.length() == 13) {
+            return true;
+        }else if (carteUtilisee != null && leModePaiement.equals("MasterCard") && carteUtilisee.length() >= 13 && carteUtilisee.length() <= 19) {
+            return true;
+        }
+        return false;
     }
 
     private void confirmDialog() {
@@ -264,8 +421,10 @@ public class Compte extends AppCompatActivity {
                     String commentaires = json_data.getString("commentaires");
                     String typeCompte = json_data.getString("typeCompte");
                     String adresse = json_data.getString("adresse");
-                    String cpU = json_data.getString("cpU");
-                    String nbCommande = json_data.getString("nbCommande");
+                    // String cpU = json_data.getString("cpU");
+                    // String nbCommande = json_data.getString("nbCommande");
+                    String nomPaiement = json_data.getString("nomPaiement");
+                    String detailPaiement = json_data.getString("detailPaiement");
 
                     Button compteValid      = (Button)findViewById(R.id.btnSave);
                     compteValid.setId(idU);
@@ -287,9 +446,43 @@ public class Compte extends AppCompatActivity {
                     TextView compteType = (TextView)findViewById(R.id.compteType);
                     compteType.setText("Compte " + typeCompte);
 
+                    RadioButton libCard = (RadioButton) findViewById(R.id.libelle_carte);
+                    RadioButton libPyPl = (RadioButton)findViewById(R.id.libelle_paypal);
+                    // RadioButton libEspc = (RadioButton)findViewById(R.id.libelle_especes);
+
+                    // Icone Paiement
+                    ImageView compteIcone = (ImageView)findViewById(R.id.iconePaiement);
+                    if(nomPaiement.equals("VISA")) {
+                        compteIcone.setImageResource(R.drawable.visa);
+                        libCard.setChecked(true);
+                        // libEspc.setChecked(true);
+                        libPyPl.setChecked(false);
+                    }else if(nomPaiement.equals("MasterCard")) {
+                        compteIcone.setImageResource(R.drawable.mastercard);
+                        libCard.setChecked(true);
+                        // libEspc.setChecked(true);
+                        libPyPl.setChecked(false);
+                    }else if(nomPaiement.equals("PayPal")) {
+                        compteIcone.setImageResource(R.drawable.paypal);
+                        libCard.setChecked(false);
+                        // libEspc.setChecked(true);
+                        libPyPl.setChecked(true);
+                    }else{
+                        compteIcone.setImageResource(R.drawable.carte_credit);
+                        libCard.setChecked(false);
+                        // libEspc.setChecked(true);
+                        libPyPl.setChecked(true);
+                    }
+
+                    // Paiement
+                    TextView compteCarte = (TextView)findViewById(R.id.detailPaiement);
+                    compteCarte.setText("" + detailPaiement);
+
+                    /*
                     // Type de compte
                     TextView compteCmd = (TextView)findViewById(R.id.produitCmd);
                     compteCmd.setText("Nombre de commandes: " + nbCommande);
+                    */
 
                     if(typeCompte.equals("Entreprise")){
                         compteNom.setText(nom);
@@ -396,7 +589,9 @@ public class Compte extends AppCompatActivity {
                         .appendQueryParameter("commentaires", params[4])
                         .appendQueryParameter("siret", params[5])
                         .appendQueryParameter("mail", params[6])
-                        .appendQueryParameter("typeCompte", params[7]);
+                        .appendQueryParameter("typeCompte", params[7])
+                        .appendQueryParameter("numeroCarte", params[8])
+                        .appendQueryParameter("libelle", params[9]);
                 /*
                         .appendQueryParameter("id", id)
                         .appendQueryParameter("nom", nom)

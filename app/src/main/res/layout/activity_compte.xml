@@ -154,7 +154,7 @@
                             android:id="@+id/compteAdresse"
                             android:textSize="12dp"
                             android:textColor="@color/cardTitre"
-                            android:inputType="textPostalAddress"
+                            android:inputType="textPostalAddress|textMultiLine"
                             android:layout_width="match_parent"
                             android:padding="@dimen/card_margin"
                             android:layout_height="wrap_content" />
@@ -194,6 +194,7 @@
                     </RelativeLayout>
                 </android.support.v7.widget.CardView>
 
+                <!--
                 <android.support.v7.widget.CardView
                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/card_view_cmd"
@@ -221,24 +222,69 @@
                             android:layout_height="wrap_content" />
                     </RelativeLayout>
                 </android.support.v7.widget.CardView>
+                -->
 
                 <android.support.v7.widget.CardView
                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/card_view_modePaiement"
-                    android:layout_below="@+id/card_view_cmd"
+                    android:layout_below="@+id/card_view_desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     card_view:cardCornerRadius="@dimen/card_album_radius">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/compte_modePaiement"
                         android:padding="5dp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center">
+
+                        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:id="@+id/radiogroup_libelle"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+                            <RadioButton android:id="@+id/libelle_carte"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Carte bancaire" />
+                            <RadioButton android:id="@+id/libelle_paypal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="PayPal" />
+                            <!--
+                            <RadioButton android:id="@+id/libelle_especes"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Espèces"
+                                android:onClick="onRadioButtonClicked"/>
+                            -->
+                        </RadioGroup>
+
+                    </RelativeLayout>
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="50px">
+                        android:layout_marginTop="60dp">
+
+                        <ImageView
+                            android:id="@+id/iconePaiement"
+                            android:layout_alignParentRight="true"
+                            android:layout_width="50dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginRight="5dp"
+                            android:foregroundGravity="bottom|right"
+                            android:src="@drawable/carte_credit" />
+
                         <TextView
                             android:id="@+id/modePaiement"
                             android:layout_width="match_parent"
@@ -250,7 +296,7 @@
                             android:id="@+id/detailPaiement"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="CB/PAYPAL"
+                            android:inputType="textCapSentences|number"
                             />
 
                     </RelativeLayout>
