@@ -1,5 +1,7 @@
 package comic.systems.ppefood;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
@@ -104,6 +106,7 @@ public class Accueil extends AppCompatActivity {
                 intent = new Intent(Accueil.this, Compte.class);
                 intent.putExtra("user", user);
                 startActivity(intent);
+                overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
                 materialDesignFAM.performClick();
             }
         });
@@ -216,8 +219,6 @@ public class Accueil extends AppCompatActivity {
                 })
                 .setNegativeButton("Non", null)
                 .show();
-
-
     }
 
     // Every time when you press search button on keypad an Activity is recreated which in turn calls this function
@@ -263,7 +264,6 @@ public class Accueil extends AppCompatActivity {
                 url = new URL("https://demo.comic.systems/android/search_produits");
 
             } catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return e.toString();
             }
@@ -292,7 +292,6 @@ public class Accueil extends AppCompatActivity {
                 conn.connect();
 
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
                 return e1.toString();
             }
@@ -344,7 +343,6 @@ public class Accueil extends AppCompatActivity {
             }
 
         }
-
     }
 
     // Create class AsyncFetch
@@ -377,7 +375,6 @@ public class Accueil extends AppCompatActivity {
                 url = new URL("https://demo.comic.systems/android/panier");
 
             } catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return e.toString();
             }
@@ -406,7 +403,6 @@ public class Accueil extends AppCompatActivity {
                 conn.connect();
 
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
                 return e1.toString();
             }
@@ -450,11 +446,19 @@ public class Accueil extends AppCompatActivity {
             //this method will be running on UI thread
             pdLoading.dismiss();
             if(result.equals("no rows")) {
-                Toast.makeText(Accueil.this, "Aucun produit n'a été trouvé", Toast.LENGTH_LONG).show();
+                Toast.makeText(Accueil.this, "Le panier est vide", Toast.LENGTH_LONG).show();
             }else{
                 Intent mySearch = new Intent(Accueil.this, Panier.class);
                 mySearch.putExtra("dataPanier", result);
                 Accueil.this.startActivity(mySearch);
+//                ActivityOptions options = null;
+//                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//                    options = ActivityOptions.makeSceneTransitionAnimation((Activity) getApplicationContext(),
+//                            ((Activity) getApplicationContext()).findViewById(R.id.material_design_floating_action_menu_item2),
+//                            "Mon Panier");
+//                    Intent myPanier = Panier.makeIntent(getApplicationContext(), floatingActionButton1);
+//                    startActivity(myPanier, options.toBundle());
+//                }
             }
 
         }

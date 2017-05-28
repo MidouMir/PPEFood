@@ -129,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
                 url = new URL("https://demo.comic.systems/android/connexion");
 
             } catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return "exception";
             }
@@ -161,7 +160,6 @@ public class MainActivity extends AppCompatActivity {
                 conn.connect();
 
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
                 return "exception";
             }

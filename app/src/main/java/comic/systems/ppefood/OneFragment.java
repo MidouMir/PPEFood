@@ -96,7 +96,6 @@ public class OneFragment extends Fragment{
                     url = new URL("https://demo.comic.systems/android/produitsTab");
 
                 } catch (MalformedURLException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                     return e.toString();
                 }
@@ -125,7 +124,6 @@ public class OneFragment extends Fragment{
                     conn.connect();
 
                 } catch (IOException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                     return e1.toString();
                 }

@@ -98,7 +98,6 @@ implements SwipeRefreshLayout.OnRefreshListener, MessagesAdapter.MessageAdapterL
                     // add all the messages
                     // messages.addAll(response.body());
 
-                    // TODO - avoid looping
                     // the loop was performed to add colors to each message
                     for (PanierModele message : response.body()) {
                         // generate a random color

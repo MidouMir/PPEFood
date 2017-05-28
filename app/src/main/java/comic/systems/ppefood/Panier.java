@@ -126,6 +126,7 @@ public class Panier extends AppCompatActivity {
                                     Intent intent = new Intent(Panier.this, Paiement.class);
                                     intent.putExtra("user", user);
                                     startActivity(intent);
+                                    finish();
                                 }
                             });
                     View snackbarView = snackbar.getView();

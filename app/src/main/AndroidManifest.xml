@@ -70,7 +70,8 @@
             android:label="@string/title_produit" />
         <activity
             android:name=".Panier"
-            android:label="@string/title_panier">
+            android:label="@string/title_panier"
+            android:theme="@style/AppTheme.Detail">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Accueil" />
@@ -81,6 +82,13 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Accueil" />
+        </activity>
+        <activity
+            android:name=".Validation"
+            android:label="@string/title_validation">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Paiement" />
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

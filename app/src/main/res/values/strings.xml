@@ -47,9 +47,11 @@
     <string name="title_activity_magasins">Nos magasins</string>
     <string name="title_paiement">Paiement</string>
     <string name="paiement_methode">Votre moyen de paiement actuel</string>
-    <string name="paiement_methode_choix">Définir un autre mode de paiement</string>
+    <string name="paiement_coordonnees">Mettre à jour mes coordonnées</string>
+    <string name="paiement_valider">Payer la commande</string>
 
     <!-- Card Form pour le mode de paiement -->
     <string name="label_owner">owner</string>
     <string name="valid_thru">valid thru</string>
+    <string name="title_validation">Commande validée</string>
 </resources>

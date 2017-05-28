@@ -135,7 +135,6 @@ public class UnProduit extends AppCompatActivity {
                 url = new URL("https://demo.comic.systems/android/unProduit");
 
             } catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return e.toString();
             }
@@ -164,7 +163,6 @@ public class UnProduit extends AppCompatActivity {
                 conn.connect();
 
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
                 return e1.toString();
             }
@@ -317,7 +315,6 @@ public class UnProduit extends AppCompatActivity {
                 url = new URL("https://demo.comic.systems/android/panier_ajout");
 
             } catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return e.toString();
             }
@@ -349,7 +346,6 @@ public class UnProduit extends AppCompatActivity {
                 conn.connect();
 
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
                 return e1.toString();
             }
@@ -430,7 +426,6 @@ public class UnProduit extends AppCompatActivity {
                 url = new URL("https://demo.comic.systems/android/panier");
 
             } catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return e.toString();
             }
@@ -459,7 +454,6 @@ public class UnProduit extends AppCompatActivity {
                 conn.connect();
 
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
                 return e1.toString();
             }

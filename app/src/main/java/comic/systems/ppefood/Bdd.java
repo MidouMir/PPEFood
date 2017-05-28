@@ -185,7 +185,6 @@ public class Bdd extends AppCompatActivity {
             }
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
 
             }
         });
@@ -324,7 +323,6 @@ public class Bdd extends AppCompatActivity {
                 url = new URL("https://demo.comic.systems/android/search_produits");
 
             } catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return e.toString();
             }
@@ -353,7 +351,6 @@ public class Bdd extends AppCompatActivity {
                 conn.connect();
 
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
                 return e1.toString();
             }
@@ -438,7 +435,6 @@ public class Bdd extends AppCompatActivity {
                 url = new URL("https://demo.comic.systems/android/panier");
 
             } catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return e.toString();
             }
@@ -467,7 +463,6 @@ public class Bdd extends AppCompatActivity {
                 conn.connect();
 
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
                 return e1.toString();
             }

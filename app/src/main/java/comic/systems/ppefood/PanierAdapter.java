@@ -284,7 +284,6 @@ public class PanierAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 url = new URL("https://demo.comic.systems/android/panier_quantite_update");
 
             } catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return e.toString();
             }
@@ -317,7 +316,6 @@ public class PanierAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 conn.connect();
 
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
                 return e1.toString();
             }

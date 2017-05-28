@@ -25,9 +25,8 @@
             app:popupTheme="@style/AppTheme"
             app:titleTextColor="@color/colorAccent">
 
-
             <Button
-                android:id="@+id/totalPrix"
+                android:id="@+id/totalPrixTTC"
                 android:drawableLeft="@drawable/euro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -50,7 +49,57 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:id="@+id/calculTVA"
+                >
+
+                <TextView
+                    android:id="@+id/produitTVA"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/album_title_padding"
+                    android:paddingRight="@dimen/album_title_padding"
+                    android:paddingTop="@dimen/album_title_padding"
+                    android:text="Prix HT"
+                    android:textSize="@dimen/album_title" />
+
+                <TextView
+                    android:id="@+id/totalPrix"
+                    android:textColor="@color/noir"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/arrondi_jaune"
+                    android:drawableLeft="@drawable/euro_petit"
+                    android:textAlignment="center"
+                    android:padding="5dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp" />
+
+                <TextView
+                    android:id="@+id/compte"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp" />
+                <TextView
+                    android:id="@+id/commande"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp" />
+                <TextView
+                    android:id="@+id/moyenPaiement"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="25dp"
+                >
 
                 <TextView
                     android:id="@+id/produitTitre"
@@ -167,7 +216,7 @@
                             android:id="@+id/card_choix"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/paiement_methode_choix"
+                            android:text="@string/paiement_coordonnees"
                             android:textColor="@color/colorPrimary"
                             android:theme="@style/SecondaryButton" />
 
@@ -272,6 +321,24 @@
             </RelativeLayout>
             -->
 
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_valid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/card_margin"
+            android:layout_marginBottom="0dp"
+            card_view:cardCornerRadius="@dimen/card_album_radius">
+            <Button
+                android:id="@+id/valider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/paiement_valider"
+                android:textColor="@color/colorPrimary"
+                android:theme="@style/SecondaryButton" />
         </android.support.v7.widget.CardView>
 
     </LinearLayout>

@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/produit_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:titleTextColor="@color/colorAccent"
+                android:elevation="4dp"
+                android:popupTheme="@color/colorAccent"
+                android:titleTextAppearance="@color/colorAccent"
+                android:theme="@style/AppTheme"
+                app:popupTheme="@style/AppTheme"
+                app:titleTextColor="@color/colorAccent">
+
+            </android.support.v7.widget.Toolbar>
+
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_commande"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/card_margin"
+                android:layout_marginBottom="0dp"
+                card_view:cardCornerRadius="@dimen/card_album_radius">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/recap"
+                    >
+
+                    <TextView
+                        android:id="@+id/commandeTitre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/album_title_padding"
+                        android:paddingRight="@dimen/album_title_padding"
+                        android:paddingTop="@dimen/album_title_padding"
+                        android:text="Numéro de commande"
+                        android:textSize="@dimen/album_title" />
+
+                    <TextView
+                        android:id="@+id/commande"
+                        android:textColor="@color/noir"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/arrondi_jaune"
+                        android:textAlignment="center"
+                        android:padding="5dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="5dp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="25dp">
+
+                    <TextView
+                        android:id="@+id/quantiteTitre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/album_title_padding"
+                        android:paddingRight="@dimen/album_title_padding"
+                        android:paddingTop="@dimen/album_title_padding"
+                        android:text="Nombre de produits"
+                        android:textSize="@dimen/album_title" />
+
+                    <TextView
+                        android:id="@+id/quantite"
+                        android:textColor="@color/noir"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/arrondi_jaune"
+                        android:textAlignment="center"
+                        android:padding="5dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="5dp" />
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_prix"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/card_margin"
+                android:layout_marginBottom="0dp"
+                card_view:cardCornerRadius="@dimen/card_album_radius">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/htTitre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/album_title_padding"
+                        android:paddingRight="@dimen/album_title_padding"
+                        android:paddingTop="@dimen/album_title_padding"
+                        android:text="Prix HT (Hors Taxes)"
+                        android:textSize="@dimen/album_title" />
+
+                    <TextView
+                        android:id="@+id/ht"
+                        android:textColor="@color/noir"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/arrondi_jaune"
+                        android:drawableLeft="@drawable/euro_petit"
+                        android:textAlignment="center"
+                        android:padding="5dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="5dp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="25dp">
+
+                    <TextView
+                        android:id="@+id/tvaTitre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/album_title_padding"
+                        android:paddingRight="@dimen/album_title_padding"
+                        android:paddingTop="@dimen/album_title_padding"
+                        android:text="Montant de la TVA"
+                        android:textSize="@dimen/album_title" />
+
+                    <TextView
+                        android:id="@+id/tva"
+                        android:textColor="@color/noir"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/arrondi_jaune"
+                        android:drawableLeft="@drawable/euro_petit"
+                        android:textAlignment="center"
+                        android:padding="5dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="5dp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="50dp">
+
+                    <TextView
+                        android:id="@+id/ttcTitre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/album_title_padding"
+                        android:paddingRight="@dimen/album_title_padding"
+                        android:paddingTop="@dimen/album_title_padding"
+                        android:text="Prix TTC (Toutes Taxes Comprises)"
+                        android:textSize="@dimen/album_title" />
+
+                    <TextView
+                        android:id="@+id/ttc"
+                        android:textColor="@color/noir"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/arrondi_jaune"
+                        android:drawableLeft="@drawable/euro_petit"
+                        android:textAlignment="center"
+                        android:padding="5dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="5dp" />
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/card_margin"
+                android:layout_marginBottom="0dp"
+                card_view:cardCornerRadius="@dimen/card_album_radius">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/dateTitre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/album_title_padding"
+                        android:paddingRight="@dimen/album_title_padding"
+                        android:paddingTop="@dimen/album_title_padding"
+                        android:text="Paiement effectué le"
+                        android:textSize="@dimen/album_title" />
+
+                    <TextView
+                        android:id="@+id/date"
+                        android:textColor="@color/noir"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/arrondi_jaune"
+                        android:textAlignment="center"
+                        android:padding="5dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="5dp" />
+
+                </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+    <!--
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        app:backgroundTint="@color/colorPrimary"
+        android:layout_margin="@dimen/fab_margin"
+        android:elevation="5dp"
+        android:src="@drawable/check" />
+    -->
+
+</android.support.design.widget.CoordinatorLayout>
