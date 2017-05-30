@@ -33,6 +33,7 @@
     <string name="title_search">Résultats de recherche</string>
     <string name="title_produit">Fiche du produit</string>
     <string name="title_panier">Panier d\'achat</string>
+    <string name="title_factures">Mes factures</string>
 
     <string name="action_connexion">Connexion</string>
     <string name="action_recherche">Recherche</string>

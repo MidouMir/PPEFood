@@ -77,6 +77,14 @@
                 android:value=".Accueil" />
         </activity>
         <activity
+            android:name=".Factures"
+            android:label="@string/title_factures"
+            android:theme="@style/AppTheme.Detail">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Accueil" />
+        </activity>
+        <activity
             android:name=".Paiement"
             android:label="@string/title_paiement">
             <meta-data

@@ -1,6 +1,7 @@
 package comic.systems.ppefood;
 
 import android.app.ProgressDialog;
+import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,30 +10,27 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -44,11 +42,11 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class Compte extends AppCompatActivity {
+import movile.com.creditcardguide.model.IssuerCode;
+import movile.com.creditcardguide.view.CreditCardView;
+
+public class Compte_origin extends AppCompatActivity {
     private String user;
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
@@ -64,12 +62,10 @@ public class Compte extends AppCompatActivity {
     private EditText cptSiret;
     private EditText cptMail;
     private TextView cptType;
-    private EditText cptPaiement;
-    private ImageView iconePaiement;
 
     // final CreditCardView creditCardView = (CreditCardView) findViewById(R.id.creditCardView);
 
-    protected void onCreate(final Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compte);
 
@@ -81,8 +77,6 @@ public class Compte extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-                overridePendingTransition(0, R.anim.push_down_out);
-                // overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
             }
         });
 
@@ -90,9 +84,7 @@ public class Compte extends AppCompatActivity {
         upArrow.setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
-        /*
-        logout = (FloatingActionButton) findViewById(R.id.fabLogout);*/
-        /*
+        /*logout = (FloatingActionButton) findViewById(R.id.fabLogout);*/
         logout = (Button) findViewById(R.id.btnLogout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,12 +92,23 @@ public class Compte extends AppCompatActivity {
                 confirmDialog();
             }
         });
-        */
 
         user = getIntent().getExtras().getString("user");
         new AsyncFetch(user).execute();
         TextView titre = (TextView)findViewById(R.id.titreTitre);
         titre.setText(user);
+
+        /*
+        creditCardView.chooseFlag(IssuerCode.VISACREDITO);
+        creditCardView.setTextExpDate("12/19");
+        creditCardView.setTextNumber("5555 4444 3333 1111");
+        creditCardView.setTextOwner("Felipe Silvestre");
+        creditCardView.setTextCVV("432");
+        */
+
+        // Warning: this is for development purposes only and should never be done outside of this example app.
+        // Failure to set FLAG_SECURE exposes your app to screenshots allowing other apps to steal card information.
+        // getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
 
         // enregistrer les informations
         saveCmpt        = (Button) findViewById(R.id.btnSave);
@@ -117,231 +120,39 @@ public class Compte extends AppCompatActivity {
         cptSiret        = (EditText) findViewById(R.id.compteSiret);
         cptMail         = (EditText) findViewById(R.id.titreTitre);
         cptType         = (TextView) findViewById(R.id.compteType);
-        cptPaiement     = (EditText) findViewById(R.id.detailPaiement);
-
-        iconePaiement   = (ImageView) findViewById(R.id.iconePaiement);
-
-        RadioGroup rdgp = (RadioGroup)findViewById(R.id.radiogroup_libelle);
-        final RadioButton rb1 = (RadioButton)findViewById(R.id.libelle_carte);
-        final RadioButton rb2 = (RadioButton)findViewById(R.id.libelle_paypal);
-
-        rdgp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // checkedId is the RadioButton selected
-                RadioButton rb  = (RadioButton)findViewById(checkedId);
-                if( rb.getText().equals("Carte bancaire") ){
-                    cptPaiement.setText("");
-                    cptPaiement.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
-                    iconePaiement.setImageResource(R.drawable.carte_credit);
-                }else{
-                    cptPaiement.setText("");
-                    cptPaiement.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-                    iconePaiement.setImageResource(R.drawable.paypal);
-                }
-            }
-        });
-
-        cptPaiement.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(rb1.isChecked()){
-                    if( s.toString().matches("") ){
-                        iconePaiement.setImageResource(R.drawable.carte_credit);
-                    }else{
-                        switchIconePaiement();
-                    }
-                }else if(rb2.isChecked()) {
-                    switchIconePaiement();
-                }
-            }
-        });
-
-        /*
-        // vérifier pendant l'écriture
-        cptPaiement.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(rb1.isChecked()){
-                    if( s.toString().matches("") ){
-                        iconePaiement.setImageResource(R.drawable.carte_credit);
-                        cptPaiement.setError("Mode de paiement vide");
-                        // Toast.makeText(Compte.this, "Contenu -> " + cptPaiement.getText(), Toast.LENGTH_LONG).show();
-                    }else{
-                        switchIconePaiement();
-                        if (!paiementValidCB(cptPaiement.getText().toString(), switchModePaiement())) {
-                            if (switchModePaiement().equals("VISA")) {
-                                cptPaiement.setError("Votre VISA doit comporter 13 chiffres");
-                            } else if (switchModePaiement().equals("MasterCard")) {
-                                cptPaiement.setError("Votre MasterCard doit avoir entre 13 et 19 caractères");
-                            } else {
-                                cptPaiement.setError("Aucune carte ne commence par " + cptPaiement.getText().toString().charAt(0));
-                            }
-                        }
-                    }
-                }else if(rb2.isChecked()) {
-                    switchIconePaiement();
-                    if ( !paiementValidMail( s.toString() ) ){
-                        cptPaiement.setError("Vérifiez l'adresse mail");
-                    }
-                }
-            }
-        });
-        */
-
         // envoyer les donnéees du formulaire
         saveCmpt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)  {
-                if(rb1.isChecked()){
-                    if(cptPaiement.getText().toString().equals("")){
-                        iconePaiement.setImageResource(R.drawable.carte_credit);
-                        cptPaiement.setError("Mode de paiement vide");
-                    }else{
-                        switchIconePaiement();
-                        if (!paiementValidCB(cptPaiement.getText().toString(), switchModePaiement())) {
-                            if (switchModePaiement().equals("VISA")) {
-                                int calcul      = (13 - cptPaiement.getText().toString().length() );
-                                String manque   = (calcul > 0) ? "Il manque " : "";
-                                String trop     = (calcul > 0) ? "" : " en trop";
-                                String numero   = String.valueOf( calcul ).replace("-", "");
-                                String chiffre  = ( numero.equals("1") ) ? " chiffre" : " chiffres";
-                                cptPaiement.setError(manque + numero + chiffre + trop);
-                            } else if (switchModePaiement().equals("MasterCard")) {
-                                int calcul1     = (13 - cptPaiement.getText().toString().length() );
-                                String manque  = (calcul1 > 0) ? "Il manque entre " : "Entre ";
-                                String trop    = (calcul1 > 0) ? "" : " en trop";
-                                String numero1  = String.valueOf( calcul1 ).replace("-", "");
-                                // String chiffre1 = ( numero1.equals("1") ) ? " chiffre" : " chiffres";
-                                int calcul2     = (19 - cptPaiement.getText().toString().length() );
-                                String numero2  = String.valueOf( calcul2 ).replace("-", "");
-                                // String chiffre2 = ( numero1.equals("1") ) ? " chiffre" : " chiffres";
-                                cptPaiement.setError(manque + numero1 + " et " + numero2 + " chiffres" + trop);
-                                // cptPaiement.setError("Votre MasterCard doit avoir entre 13 et 19 caractères");
-                            } else {
-                                cptPaiement.setError("Aucune carte ne commence par " + cptPaiement.getText().toString().charAt(0));
-                            }
-                        }
-                    }
-                }else if(rb2.isChecked()) {
-                    switchIconePaiement();
-                    if (!paiementValidMail(cptPaiement.getText().toString())){
-                        cptPaiement.setError("1-> Vérifiez l'adresse mail");
-                    }
-                }
-                if(cptPaiement.getError() == null) {
-                    new AsyncUpdate().execute(
-                            "id-"+saveCmpt.getId(),
-                            cptNom.getText().toString(),
-                            cptPrenom.getText().toString(),
-                            cptAdresse.getText().toString(),
-                            cptComm.getText().toString(),
-                            cptSiret.getText().toString(),
-                            cptMail.getText().toString(),
-                            cptType.getText().toString(),
-                            cptPaiement.getText().toString(),
-                            String.valueOf(switchModePaiement())
-                    );
-                    cptPaiement.clearFocus();
-                }else{
-                    // Toast.makeText(Compte.this, "Il y a une erreur...", Toast.LENGTH_LONG).show();
-                    Snackbar snackbar = Snackbar.make(saveCmpt, "Il y a une erreur...", Snackbar.LENGTH_LONG);
-                    View snackbarView = snackbar.getView();
-                    snackbarView.setBackgroundColor(ContextCompat.getColor(Compte.this, R.color.colorPrimary));;
-                    snackbar.show();
-                }
+                new AsyncUpdate().execute(
+                        "id-"+saveCmpt.getId(),
+                        cptNom.getText().toString(),
+                        cptPrenom.getText().toString(),
+                        cptAdresse.getText().toString(),
+                        cptComm.getText().toString(),
+                        cptSiret.getText().toString(),
+                        cptMail.getText().toString(),
+                        cptType.getText().toString()
+                );
             }
         });
-
-    }
-
-    public void switchIconePaiement() {
-        final RadioButton rbp = (RadioButton)findViewById(R.id.libelle_paypal);
-        if(rbp.isChecked()){
-            iconePaiement.setImageResource(R.drawable.paypal);
-        }else{
-            switch ((cptPaiement.getText()).charAt(0)) {
-                case '4':
-                    iconePaiement.setImageResource(R.drawable.visa);
-                    break;
-                case '5':
-                    iconePaiement.setImageResource(R.drawable.mastercard);
-                    break;
-                default:
-                    iconePaiement.setImageResource(R.drawable.carte_credit);
-            }
-        }
-    }
-
-    public String switchModePaiement() {
-        String resultat = "";
-        if((cptPaiement.getText()).toString().contains("@")){
-            resultat    = "PayPal";
-        }else{
-            switch ((cptPaiement.getText()).charAt(0)) {
-                case '4':
-                    resultat = "VISA";
-                    break;
-                case '5':
-                    resultat = "MasterCard";
-                    break;
-                default:
-                    resultat = "vide";
-            }
-        }
-        return resultat;
-    }
-
-    // vérifier l'adresse mail
-    private boolean paiementValidMail(String adresseMailPayPal) {
-        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-
-        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-        Matcher matcher = pattern.matcher(adresseMailPayPal);
-        return matcher.matches();
-    }
-
-    // vérifier la carte
-    private boolean paiementValidCB(String carteUtilisee, String leModePaiement) {
-        if (carteUtilisee != null && leModePaiement.equals("VISA") && carteUtilisee.length() == 13) {
-            return true;
-        }else if (carteUtilisee != null && leModePaiement.equals("MasterCard") && carteUtilisee.length() >= 13 && carteUtilisee.length() <= 19) {
-            return true;
-        }
-        return false;
     }
 
     private void confirmDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Compte.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(Compte_origin.this);
         builder
                 .setMessage("Voulez-vous vraiment vous déconnecter ?")
                 .setPositiveButton("Oui",  new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        Toast.makeText(Compte.this, "Déconnexion", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Compte_origin.this, "Déconnexion", Toast.LENGTH_LONG).show();
                         SharedPreferences sharedPrefs =getSharedPreferences(MainActivity.PREFS_NAME,MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPrefs.edit();
                         editor.clear();
                         editor.commit();
                         user="";
                         //show login form
-                        Intent intent=new Intent(Compte.this, MainActivity.class);
+                        Intent intent=new Intent(Compte_origin.this, MainActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -358,7 +169,7 @@ public class Compte extends AppCompatActivity {
     // Create class AsyncFetch
     private class AsyncFetch extends AsyncTask<String, String, String> {
 
-        ProgressDialog pdLoading = new ProgressDialog(Compte.this);
+        ProgressDialog pdLoading = new ProgressDialog(Compte_origin.this);
         HttpURLConnection conn;
         URL url = null;
         String user;
@@ -383,6 +194,7 @@ public class Compte extends AppCompatActivity {
                 // Enter URL address where your php file resides
                 url = new URL("https://demo.comic.systems/android/monCompte");
             } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return e.toString();
             }
@@ -409,6 +221,7 @@ public class Compte extends AppCompatActivity {
                 os.close();
                 conn.connect();
             } catch (IOException e1) {
+                // TODO Auto-generated catch block
                 e1.printStackTrace();
                 return e1.toString();
             }
@@ -445,7 +258,7 @@ public class Compte extends AppCompatActivity {
             //this method will be running on UI thread
             pdLoading.dismiss();
             if(user.equals("no rows")) {
-                Toast.makeText(Compte.this, "Cette fiche n'existe pas", Toast.LENGTH_LONG).show();
+                Toast.makeText(Compte_origin.this, "Cette fiche n'existe pas", Toast.LENGTH_LONG).show();
             }else{
                 try {
                     JSONArray jArray = new JSONArray(user);
@@ -458,10 +271,8 @@ public class Compte extends AppCompatActivity {
                     String commentaires = json_data.getString("commentaires");
                     String typeCompte = json_data.getString("typeCompte");
                     String adresse = json_data.getString("adresse");
-                    // String cpU = json_data.getString("cpU");
-                    // String nbCommande = json_data.getString("nbCommande");
-                    String nomPaiement = json_data.getString("nomPaiement");
-                    String detailPaiement = json_data.getString("detailPaiement");
+                    String cpU = json_data.getString("cpU");
+                    String nbCommande = json_data.getString("nbCommande");
 
                     Button compteValid      = (Button)findViewById(R.id.btnSave);
                     compteValid.setId(idU);
@@ -483,43 +294,9 @@ public class Compte extends AppCompatActivity {
                     TextView compteType = (TextView)findViewById(R.id.compteType);
                     compteType.setText("Compte " + typeCompte);
 
-                    RadioButton libCard = (RadioButton) findViewById(R.id.libelle_carte);
-                    RadioButton libPyPl = (RadioButton)findViewById(R.id.libelle_paypal);
-                    // RadioButton libEspc = (RadioButton)findViewById(R.id.libelle_especes);
-
-                    // Icone Paiement
-                    ImageView compteIcone = (ImageView)findViewById(R.id.iconePaiement);
-                    if(nomPaiement.equals("VISA")) {
-                        compteIcone.setImageResource(R.drawable.visa);
-                        libCard.setChecked(true);
-                        // libEspc.setChecked(true);
-                        libPyPl.setChecked(false);
-                    }else if(nomPaiement.equals("MasterCard")) {
-                        compteIcone.setImageResource(R.drawable.mastercard);
-                        libCard.setChecked(true);
-                        // libEspc.setChecked(true);
-                        libPyPl.setChecked(false);
-                    }else if(nomPaiement.equals("PayPal")) {
-                        compteIcone.setImageResource(R.drawable.paypal);
-                        libCard.setChecked(false);
-                        // libEspc.setChecked(true);
-                        libPyPl.setChecked(true);
-                    }else{
-                        compteIcone.setImageResource(R.drawable.carte_credit);
-                        libCard.setChecked(false);
-                        // libEspc.setChecked(true);
-                        libPyPl.setChecked(true);
-                    }
-
-                    // Paiement
-                    TextView compteCarte = (TextView)findViewById(R.id.detailPaiement);
-                    compteCarte.setText("" + detailPaiement);
-
-                    /*
                     // Type de compte
                     TextView compteCmd = (TextView)findViewById(R.id.produitCmd);
                     compteCmd.setText("Nombre de commandes: " + nbCommande);
-                    */
 
                     if(typeCompte.equals("Entreprise")){
                         compteNom.setText(nom);
@@ -541,8 +318,8 @@ public class Compte extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     // You to understand what actually error is and handle it appropriately
-                    Toast.makeText(Compte.this, e.toString(), Toast.LENGTH_LONG).show();
-                    Toast.makeText(Compte.this, user.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(Compte_origin.this, e.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(Compte_origin.this, user.toString(), Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -550,7 +327,7 @@ public class Compte extends AppCompatActivity {
 
         private void showPopupMenu(View view) {
             // inflate menu
-            PopupMenu popup = new PopupMenu(Compte.this, view);
+            PopupMenu popup = new PopupMenu(Compte_origin.this, view);
             MenuInflater inflater = popup.getMenuInflater();
             inflater.inflate(R.menu.menu_produit, popup.getMenu());
             popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
@@ -566,10 +343,10 @@ public class Compte extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.action_ajouter:
-                        Toast.makeText(Compte.this, "Ajouté au panier", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Compte_origin.this, "Ajouté au panier", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.action_more:
-                        Toast.makeText(Compte.this, "Autres produits de la même catégorie" , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Compte_origin.this, "Autres produits de la même catégorie" , Toast.LENGTH_SHORT).show();
                         return true;
                     default:
                 }
@@ -582,7 +359,7 @@ public class Compte extends AppCompatActivity {
     // Create class AsyncUpdate
     private class AsyncUpdate extends AsyncTask<String, String, String> {
 
-        ProgressDialog pdLoading = new ProgressDialog(Compte.this);
+        ProgressDialog pdLoading = new ProgressDialog(Compte_origin.this);
         HttpURLConnection conn;
         URL url = null;
 
@@ -602,6 +379,7 @@ public class Compte extends AppCompatActivity {
                 // Enter URL address where your php file resides
                 url = new URL("https://demo.comic.systems/android/majCompte");
             } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return e.toString();
             }
@@ -625,9 +403,7 @@ public class Compte extends AppCompatActivity {
                         .appendQueryParameter("commentaires", params[4])
                         .appendQueryParameter("siret", params[5])
                         .appendQueryParameter("mail", params[6])
-                        .appendQueryParameter("typeCompte", params[7])
-                        .appendQueryParameter("numeroCarte", params[8])
-                        .appendQueryParameter("libelle", params[9]);
+                        .appendQueryParameter("typeCompte", params[7]);
                 /*
                         .appendQueryParameter("id", id)
                         .appendQueryParameter("nom", nom)
@@ -647,6 +423,7 @@ public class Compte extends AppCompatActivity {
                 os.close();
                 conn.connect();
             } catch (IOException e1) {
+                // TODO Auto-generated catch block
                 e1.printStackTrace();
                 return e1.toString();
             }
@@ -683,19 +460,11 @@ public class Compte extends AppCompatActivity {
             //this method will be running on UI thread
             pdLoading.dismiss();
             if(maj.contains("erreur")) {
-                Toast.makeText(Compte.this, "Impossible de mettre à jour votre compte ("+maj+")", Toast.LENGTH_LONG).show();
+                Toast.makeText(Compte_origin.this, "Impossible de mettre à jour votre compte ("+maj+")", Toast.LENGTH_LONG).show();
             }else{
-                Toast.makeText(Compte.this, "Votre compte a bien été mis à jour !", Toast.LENGTH_LONG).show();
+                Toast.makeText(Compte_origin.this, "Votre compte a bien été mis à jour !", Toast.LENGTH_LONG).show();
             }
 
         }
-    }
-
-    // back to exit
-    @Override
-    public void onBackPressed() {
-        finish();
-        overridePendingTransition(0, R.anim.push_down_out);
-        // overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
     }
 }

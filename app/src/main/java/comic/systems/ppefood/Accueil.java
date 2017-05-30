@@ -64,7 +64,7 @@ public class Accueil extends AppCompatActivity {
     private ViewPager viewPager;
 
     FloatingActionMenu materialDesignFAM;
-    FloatingActionButton floatingActionButton1, floatingActionButton2;
+    FloatingActionButton floatingActionButton1, floatingActionButton2, floatingActionButton3;
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
     public static final int CONNECTION_TIMEOUT=10000;
@@ -98,6 +98,7 @@ public class Accueil extends AppCompatActivity {
         materialDesignFAM       = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
         floatingActionButton1   = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item1);
         floatingActionButton2   = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item2);
+        floatingActionButton3   = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item3);
 
         // actions des boutons en plus
         floatingActionButton1.setOnClickListener(new View.OnClickListener() {
@@ -106,13 +107,19 @@ public class Accueil extends AppCompatActivity {
                 intent = new Intent(Accueil.this, Compte.class);
                 intent.putExtra("user", user);
                 startActivity(intent);
-                overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
+                overridePendingTransition(R.anim.push_up_in, 0);
                 materialDesignFAM.performClick();
             }
         });
         floatingActionButton2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 new PanierFetch(user).execute();
+                materialDesignFAM.performClick();
+            }
+        });
+        floatingActionButton3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                new FacturesFetch(user).execute();
                 materialDesignFAM.performClick();
             }
         });
@@ -345,7 +352,7 @@ public class Accueil extends AppCompatActivity {
         }
     }
 
-    // Create class AsyncFetch
+    // Ouvrir le panier
     private class PanierFetch extends AsyncTask<String, String, String> {
 
         ProgressDialog pdLoading = new ProgressDialog(Accueil.this);
@@ -451,14 +458,119 @@ public class Accueil extends AppCompatActivity {
                 Intent mySearch = new Intent(Accueil.this, Panier.class);
                 mySearch.putExtra("dataPanier", result);
                 Accueil.this.startActivity(mySearch);
-//                ActivityOptions options = null;
-//                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-//                    options = ActivityOptions.makeSceneTransitionAnimation((Activity) getApplicationContext(),
-//                            ((Activity) getApplicationContext()).findViewById(R.id.material_design_floating_action_menu_item2),
-//                            "Mon Panier");
-//                    Intent myPanier = Panier.makeIntent(getApplicationContext(), floatingActionButton1);
-//                    startActivity(myPanier, options.toBundle());
-//                }
+            }
+
+        }
+
+    }
+
+    // Ouvrir les factures
+    private class FacturesFetch extends AsyncTask<String, String, String> {
+
+        ProgressDialog pdLoading = new ProgressDialog(Accueil.this);
+        HttpURLConnection conn;
+        URL url = null;
+        String utilisateur;
+
+        public FacturesFetch(String utilisateur){
+            this.utilisateur=utilisateur;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            //this method will be running on UI thread
+            pdLoading.setMessage("\tChargement...");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                // Enter URL address where your php file resides
+                url = new URL("https://demo.comic.systems/android/factures");
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                return e.toString();
+            }
+            try {
+
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+
+                // setDoInput and setDoOutput to true as we send and recieve data
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                // add parameter to our above url
+                Uri.Builder builder = new Uri.Builder().appendQueryParameter("utilisateur", String.valueOf(utilisateur));
+                String query = builder.build().getEncodedQuery();
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                return e1.toString();
+            }
+
+            try {
+
+                int response_code = conn.getResponseCode();
+
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
+
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+
+                    // Pass data to onPostExecute method
+                    return (result.toString());
+
+                } else {
+                    return("Connection error");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return e.toString();
+            } finally {
+                conn.disconnect();
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            //this method will be running on UI thread
+            pdLoading.dismiss();
+            if(result.equals("no rows")) {
+                Toast.makeText(Accueil.this, "Il n'y a aucune facture", Toast.LENGTH_LONG).show();
+            }else{
+                Intent myFactures = new Intent(Accueil.this, Factures.class);
+                myFactures.putExtra("dataFactures", result);
+                Accueil.this.startActivity(myFactures);
+                overridePendingTransition(R.anim.push_up_in, 0);
             }
 
         }
