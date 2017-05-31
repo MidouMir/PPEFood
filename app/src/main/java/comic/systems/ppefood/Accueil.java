@@ -8,6 +8,7 @@ import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -64,7 +65,7 @@ public class Accueil extends AppCompatActivity {
     private ViewPager viewPager;
 
     FloatingActionMenu materialDesignFAM;
-    FloatingActionButton floatingActionButton1, floatingActionButton2, floatingActionButton3;
+    FloatingActionButton floatingActionButton1, floatingActionButton2, floatingActionButton3, floatingActionButton4;
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
     public static final int CONNECTION_TIMEOUT=10000;
@@ -99,6 +100,7 @@ public class Accueil extends AppCompatActivity {
         floatingActionButton1   = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item1);
         floatingActionButton2   = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item2);
         floatingActionButton3   = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item3);
+        floatingActionButton4   = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item4);
 
         // actions des boutons en plus
         floatingActionButton1.setOnClickListener(new View.OnClickListener() {
@@ -108,23 +110,30 @@ public class Accueil extends AppCompatActivity {
                 intent.putExtra("user", user);
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_up_in, 0);
-                materialDesignFAM.performClick();
+                materialDesignFAM.close(true);
             }
         });
         floatingActionButton2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 new PanierFetch(user).execute();
-                materialDesignFAM.performClick();
+                materialDesignFAM.close(true);
             }
         });
         floatingActionButton3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 new FacturesFetch(user).execute();
-                materialDesignFAM.performClick();
+                materialDesignFAM.close(true);
+            }
+        });
+        floatingActionButton4.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                deconnexion();
+                materialDesignFAM.close(true);
             }
         });
     }
 
+    // générer l'affichage des catégories
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new OneFragment("Sandwich"), "Plats Chauds");
@@ -134,6 +143,7 @@ public class Accueil extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
+    //
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
@@ -163,24 +173,7 @@ public class Accueil extends AppCompatActivity {
         }
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        // adds item to action bar
-        getMenuInflater().inflate(R.menu.search_main, menu);
-
-        // Get Search item from action bar and Get Search service
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchManager searchManager = (SearchManager) Accueil.this.getSystemService(Context.SEARCH_SERVICE);
-        if (searchItem != null) {
-            searchView = (SearchView) searchItem.getActionView();
-        }
-        if (searchView != null) {
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(Accueil.this.getComponentName()));
-            searchView.setIconified(true);
-        }
-        return true;
-    }
-
+    // afficher le menu de recherche
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem searchMenuItem = menu.findItem(R.id.action_search);
@@ -208,12 +201,39 @@ public class Accueil extends AppCompatActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+    // mettre en place la recherche
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // adds item to action bar
+        getMenuInflater().inflate(R.menu.search_main, menu);
+
+        // Get Search item from action bar and Get Search service
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchManager searchManager = (SearchManager) Accueil.this.getSystemService(Context.SEARCH_SERVICE);
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(Accueil.this.getComponentName()));
+            searchView.setIconified(true);
+        }
+        return true;
     }
 
-    // back to exit
+    // lancer la recherche
+    @Override
+    protected void onNewIntent(Intent intent) {
+        // Get search query and create object of class RechercheFetch
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            if (searchView != null) {
+                searchView.clearFocus();
+            }
+            new RechercheFetch(query).execute();
+        }
+    }
+
+    // confirmer la sortie de l'application
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
@@ -228,28 +248,15 @@ public class Accueil extends AppCompatActivity {
                 .show();
     }
 
-    // Every time when you press search button on keypad an Activity is recreated which in turn calls this function
-    @Override
-    protected void onNewIntent(Intent intent) {
-        // Get search query and create object of class AsyncFetch
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            if (searchView != null) {
-                searchView.clearFocus();
-            }
-            new AsyncFetch(query).execute();
-        }
-    }
-
-    // Create class AsyncFetch
-    private class AsyncFetch extends AsyncTask<String, String, String> {
+    // Classe -> Recherche
+    private class RechercheFetch extends AsyncTask<String, String, String> {
 
         ProgressDialog pdLoading = new ProgressDialog(Accueil.this);
         HttpURLConnection conn;
         URL url = null;
         String searchQuery;
 
-        public AsyncFetch(String searchQuery){
+        public RechercheFetch(String searchQuery){
             this.searchQuery=searchQuery;
         }
 
@@ -352,7 +359,7 @@ public class Accueil extends AppCompatActivity {
         }
     }
 
-    // Ouvrir le panier
+    // Classe -> Panier
     private class PanierFetch extends AsyncTask<String, String, String> {
 
         ProgressDialog pdLoading = new ProgressDialog(Accueil.this);
@@ -464,7 +471,7 @@ public class Accueil extends AppCompatActivity {
 
     }
 
-    // Ouvrir les factures
+    // Classe -> Factures
     private class FacturesFetch extends AsyncTask<String, String, String> {
 
         ProgressDialog pdLoading = new ProgressDialog(Accueil.this);
@@ -574,6 +581,34 @@ public class Accueil extends AppCompatActivity {
             }
 
         }
+    }
 
+    // Confirmer la déconnexion
+    private void deconnexion() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Accueil.this);
+        builder
+            .setMessage("Voulez-vous vraiment vous déconnecter ?")
+            .setPositiveButton("Oui",  new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    Toast.makeText(Accueil.this, "Déconnexion", Toast.LENGTH_LONG).show();
+                    SharedPreferences sharedPrefs   = getSharedPreferences(MainActivity.PREFS_NAME,MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPrefs.edit();
+                    editor.clear();
+                    editor.commit();
+                    user="";
+                    //show login form
+                    Intent intent=new Intent(Accueil.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            })
+            .setNegativeButton("Non", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog,int id) {
+                    dialog.cancel();
+                }
+            })
+            .show();
     }
 }

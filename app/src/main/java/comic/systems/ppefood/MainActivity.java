@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Parcelable;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -50,40 +53,70 @@ public class MainActivity extends AppCompatActivity {
     public static String PREF_USERNAME  = "user";
     public static String PREF_PASSWORD  = "pass";
     public static String PREF_ACCOUNT   = "type";
-
-    // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
-    public static final int CONNECTION_TIMEOUT=10000;
-    public static final int READ_TIMEOUT=15000;
     private EditText etUser;
     private EditText etPass;
+
+    // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
+    public static final int CONNECTION_TIMEOUT  = 10000;
+    public static final int READ_TIMEOUT        = 15000;
+
+    // website to be visited
+    static final String SITE_URL = "https://demo.comic.systems/?creation";
+
+    // Define variables for custom tabs and its builder
+    CustomTabsIntent customTabsIntent;
+    CustomTabsIntent.Builder intentBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Get Reference to variables
         etUser  = (EditText) findViewById(R.id.mail);
         etPass  = (EditText) findViewById(R.id.pass);
 
+        // Initialize intentBuilder
+        intentBuilder = new CustomTabsIntent.Builder();
+
+        // Set toolbar(tab) color of your chrome browser
+        intentBuilder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+
+        // Define entry and exit animation
+        intentBuilder.setStartAnimations(this, R.anim.left_to_right_start, R.anim.right_to_left_start);
+        // intentBuilder.setStartAnimations(this, R.anim.push_up_in, R.anim.push_up_out);
+        intentBuilder.setExitAnimations(this, R.anim.right_to_left_end, R.anim.left_to_right_end);
+        // intentBuilder.setExitAnimations(this, R.anim.push_down_in, R.anim.push_down_out);
+        intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+
+        // build it by setting up all
+        customTabsIntent = intentBuilder.build();
     }
 
+    // Ouvrir la Chrome Custom Tab pour créer un compte
+    public void CreerCompte(View arg0) {
+
+        // go to website defined above
+        customTabsIntent.launchUrl(this, Uri.parse(SITE_URL));
+
+    }
+
+
+    // Vérification au lancement
     public void onStart(){
         super.onStart();
         //read username and password from SharedPreferences
         getUser();
     }
 
-    // Triggers when LOGIN Button clicked
+    // La vérification de base qui lance la validation des 2 champs
     public void checkLogin(View arg0) {
 
         // Get text from user and pass field
         final String user = etUser.getText().toString();
         final String pass = etPass.getText().toString();
 
-        if (!isChampOk(user)) {
+        if (!isMailOk(user)) {
             //Set error message for email field
-            etUser.setError("Minimum 4 caractères");
+            etUser.setError("Vérifiez votre adresse mail");
         }
 
         if (!isChampOk(pass)) {
@@ -91,13 +124,14 @@ public class MainActivity extends AppCompatActivity {
             etPass.setError("Minimum 4 caractères");
         }
 
-        if(isChampOk(user) && isChampOk(pass))
+        if(isMailOk(user) && isChampOk(pass))
         {
             new AsyncLogin().execute(user,pass);
         }
 
     }
 
+    // Vérifier si le mot de passe est bien rentré
     private boolean isChampOk(String champ) {
         if (champ != null && champ.length() >= 4) {
             return true;
@@ -105,8 +139,18 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    private class AsyncLogin extends AsyncTask<String, String, String>
-    {
+    // Vérifier si le mail est bien rentré
+    private boolean isMailOk(String email) {
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+    // Classe -> Envoyer les champs de connexion
+    private class AsyncLogin extends AsyncTask<String, String, String> {
         ProgressDialog pdLoading = new ProgressDialog(MainActivity.this);
         HttpURLConnection conn;
         URL url = null;
@@ -195,8 +239,6 @@ public class MainActivity extends AppCompatActivity {
             } finally {
                 conn.disconnect();
             }
-
-
         }
 
         @Override
@@ -219,32 +261,16 @@ public class MainActivity extends AppCompatActivity {
                 /* Here launching another activity when login successful. If you persist login state
                 use sharedPreferences of Android. and logout button to clear sharedPreferences.
                  */
-
                 Toast.makeText(MainActivity.this, "Bienvenue !", Toast.LENGTH_LONG).show();
                 rememberMe(etUser.getText().toString(),etPass.getText().toString(), result);
                 getUser();
-                /*
-                Intent myIntent = new Intent(MainActivity.this, Accueil.class);
-                MainActivity.this.startActivity(myIntent);
-                */
 
             }
         }
 
     }
 
-    public void getUser(){
-        SharedPreferences pref = getSharedPreferences(PREFS_NAME,MODE_PRIVATE);
-        String prefUser = pref.getString(PREF_USERNAME, null);
-        String prefPass = pref.getString(PREF_PASSWORD, null);
-        String prefType = pref.getString(PREF_ACCOUNT, null);
-
-        if (prefUser != null || prefPass != null) {
-            //directly show logout form
-            showLogout(prefUser, prefType);
-        }
-    }
-
+    // Garder en mémoire les paramètres
     public void rememberMe(String user, String pass, String type){
         //save username and password in SharedPreferences
         getSharedPreferences(PREFS_NAME,MODE_PRIVATE)
@@ -255,7 +281,21 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void showLogout(String prefUser, String prefType){
+    // Enregistrer l'utilisateur
+    public void getUser(){
+        SharedPreferences pref = getSharedPreferences(PREFS_NAME,MODE_PRIVATE);
+        String prefUser = pref.getString(PREF_USERNAME, null);
+        String prefPass = pref.getString(PREF_PASSWORD, null);
+        String prefType = pref.getString(PREF_ACCOUNT, null);
+
+        if (prefUser != null || prefPass != null) {
+            //directly show logout form
+            autoConnect(prefUser, prefType);
+        }
+    }
+
+    // Se connecter avec les paremètres gardés en mémoire
+    public void autoConnect(String prefUser, String prefType){
         //display log out activity
         Intent intent   = new Intent(this, Accueil.class);
         intent.putExtra("user",prefUser);

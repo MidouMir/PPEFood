@@ -13,18 +13,13 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimary">
 
-        <!--
-        <include
-            android:id="@+id/action_bar"
-            layout="@layout/action_bar" />
-        -->
-
+        <!-- 120dp -->
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@mipmap/ic_launcher"
-            android:layout_marginTop="140dp"
+            android:layout_marginTop="110dp"
             />
 
         <RelativeLayout
@@ -93,6 +88,19 @@
                     android:textColor="@color/pageBG"
                     android:onClick="checkLogin"/>
             </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/SecondaryButton"
+                android:textColor="@color/pageBG"
+                android:text="Créer un compte"
+                android:onClick="CreerCompte" />
         </RelativeLayout>
     </LinearLayout>
 

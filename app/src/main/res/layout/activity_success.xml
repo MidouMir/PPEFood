@@ -123,6 +123,17 @@
                 fab:fab_colorPressed="@color/colorPrimaryDark"
                 fab:fab_label="Mes factures"
                 fab:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/material_design_floating_action_menu_item4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/power"
+                fab:fab_colorNormal="@color/colorPrimary"
+                fab:fab_colorPressed="@color/colorPrimaryDark"
+                fab:fab_label="Déconnexion"
+                fab:fab_size="mini" />
+
         </com.github.clans.fab.FloatingActionMenu>
     </RelativeLayout>
 
