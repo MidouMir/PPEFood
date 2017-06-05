@@ -216,13 +216,15 @@ public class Compte extends AppCompatActivity {
                         switchIconePaiement();
                         if (!paiementValidCB(cptPaiement.getText().toString(), switchModePaiement())) {
                             if (switchModePaiement().equals("VISA")) {
-                                int calcul      = (13 - cptPaiement.getText().toString().length() );
+                                // une VISA doit contenir 16 caractères
+                                int calcul      = (16 - cptPaiement.getText().toString().length() );
                                 String manque   = (calcul > 0) ? "Il manque " : "";
                                 String trop     = (calcul > 0) ? "" : " en trop";
                                 String numero   = String.valueOf( calcul ).replace("-", "");
                                 String chiffre  = ( numero.equals("1") ) ? " chiffre" : " chiffres";
                                 cptPaiement.setError(manque + numero + chiffre + trop);
                             } else if (switchModePaiement().equals("MasterCard")) {
+                                // une MasterCard doit contenir entre 13 et 19 caractères
                                 int calcul1     = (13 - cptPaiement.getText().toString().length() );
                                 String manque  = (calcul1 > 0) ? "Il manque entre " : "Entre ";
                                 String trop    = (calcul1 > 0) ? "" : " en trop";
@@ -231,7 +233,16 @@ public class Compte extends AppCompatActivity {
                                 int calcul2     = (19 - cptPaiement.getText().toString().length() );
                                 String numero2  = String.valueOf( calcul2 ).replace("-", "");
                                 // String chiffre2 = ( numero1.equals("1") ) ? " chiffre" : " chiffres";
-                                cptPaiement.setError(manque + numero1 + " et " + numero2 + " chiffres" + trop);
+
+                                // Si le calcul est négatif, afficher les chiffres dans l'ordre inverse
+                                // "entre 8 et 2" devient "entre 2 et 8"
+                                int negatif     = Integer.valueOf(numero1) - Integer.valueOf(numero2);
+                                if(negatif<0){
+                                    cptPaiement.setError(manque + numero1 + " et " + numero2 + " chiffres" + trop);
+                                }else{
+                                    cptPaiement.setError(manque + numero2 + " et " + numero1 + " chiffres" + trop);
+                                }
+
                                 // cptPaiement.setError("Votre MasterCard doit avoir entre 13 et 19 caractères");
                             } else {
                                 cptPaiement.setError("Aucune carte ne commence par " + cptPaiement.getText().toString().charAt(0));
@@ -319,7 +330,7 @@ public class Compte extends AppCompatActivity {
 
     // vérifier la carte
     private boolean paiementValidCB(String carteUtilisee, String leModePaiement) {
-        if (carteUtilisee != null && leModePaiement.equals("VISA") && carteUtilisee.length() == 13) {
+        if (carteUtilisee != null && leModePaiement.equals("VISA") && carteUtilisee.length() == 16) {
             return true;
         }else if (carteUtilisee != null && leModePaiement.equals("MasterCard") && carteUtilisee.length() >= 13 && carteUtilisee.length() <= 19) {
             return true;
