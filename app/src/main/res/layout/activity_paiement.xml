@@ -43,7 +43,7 @@
             android:id="@+id/card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/card_margin"
+            android:layout_margin="5dp"
             android:layout_marginBottom="0dp"
             card_view:cardCornerRadius="@dimen/card_album_radius">
 
@@ -128,10 +128,60 @@
 
         <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_magasin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_marginBottom="0dp"
+            card_view:cardCornerRadius="@dimen/card_album_radius">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/magasinTitre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/album_title_padding"
+                    android:paddingRight="@dimen/album_title_padding"
+                    android:paddingTop="@dimen/album_title_padding"
+                    android:text="Magasin assigné"
+                    android:textSize="@dimen/album_title" />
+
+                <TextView
+                    android:id="@+id/codeMagasin"
+                    android:textColor="@color/noir"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/arrondi_jaune"
+                    android:textAlignment="center"
+                    android:padding="5dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp" />
+
+                <TextView
+                    android:id="@+id/magasin"
+                    android:textColor="@color/noir"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/magasinTitre"
+                    android:text="Adresse"
+                    android:padding="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:id="@+id/card_livraison"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/card_margin"
+            android:layout_margin="5dp"
             android:layout_marginBottom="0dp"
             card_view:cardCornerRadius="@dimen/card_album_radius">
 
@@ -167,7 +217,7 @@
             android:id="@+id/card_methodes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/card_margin"
+            android:layout_margin="5dp"
             android:layout_marginBottom="0dp"
             android:padding="5dp"
             card_view:cardCornerRadius="@dimen/card_album_radius">

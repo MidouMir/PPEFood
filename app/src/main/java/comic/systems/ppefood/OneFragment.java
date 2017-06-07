@@ -63,7 +63,7 @@ public class OneFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_one, container, false);
+        final View view = inflater.inflate(R.layout.content_fragment, container, false);
         // TextView tvTitle = (TextView) view.findViewById(R.id.fragmentTitre);
         // tvTitle.setText(cat);
 
@@ -184,7 +184,7 @@ public class OneFragment extends Fragment{
                             resData.idP = json_data.getInt("idP");
                             resData.nomP = json_data.getString("nomP");
                             resData.categorie = json_data.getString("categorie");
-                            resData.quantite = json_data.getString("quantite");
+                            resData.disponibilite = json_data.getString("disponibilite");
                             resData.prixP = json_data.getString("prixP");
                             resData.photoP = json_data.getString("photoP");
                             data.add(resData);

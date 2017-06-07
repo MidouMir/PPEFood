@@ -114,13 +114,15 @@ public class Paiement extends AppCompatActivity {
                 // prix total HT
                 TextView champ5             = (TextView) findViewById(R.id.totalPrix);
                 String lePrix               = champ5.getText().toString();
+                // boutique choisie
+                TextView champ6             = (TextView) findViewById(R.id.codeMagasin);
+                String boutique             = champ6.getText().toString();
 
-                /*
-                Toast.makeText(Paiement.this, "Compte -> " + compte +
-                        "\nCommande n°" + commande + "\nPrix " + lePrix +
-                        "\nPaiement n°" + typePaiement, Toast.LENGTH_LONG).show();
-                */
-                new PaiementEffectuer(compte, commande, typePaiement, lePrix, quantite).execute();
+
+                // Toast.makeText(Paiement.this, "Boutique" + boutique, Toast.LENGTH_LONG).show();
+
+
+                new PaiementEffectuer(compte, commande, typePaiement, lePrix, quantite, boutique).execute();
             }
         });
     }
@@ -236,6 +238,8 @@ public class Paiement extends AppCompatActivity {
             public String totalPrix;
             public String totalPrixTTC;
             public String adresseU;
+            public String codeMag;
+            public String nomMag;
             public String moyenPaiement;
             public String detailPaiement;
         }
@@ -247,6 +251,8 @@ public class Paiement extends AppCompatActivity {
             pdLoading.dismiss();
             if(resultat.equals("no rows")) {
                 Toast.makeText(Paiement.this, "Impossible de passer au paiement", Toast.LENGTH_LONG).show();
+            }else if(resultat.equals("no mag")) {
+                Toast.makeText(Paiement.this, "Aucun magasin n'a tous vos produits", Toast.LENGTH_LONG).show();
             }else{
                 try {
                     JSONArray jArray = new JSONArray(resultat);
@@ -260,6 +266,8 @@ public class Paiement extends AppCompatActivity {
                     resData.totalPrix = json_data.getString("totalPrix");
                     resData.totalPrixTTC = json_data.getString("totalPrixTTC");
                     resData.adresseU = json_data.getString("adresseU");
+                    resData.codeMag = json_data.getString("codeMag");
+                    resData.nomMag = json_data.getString("nomMag");
                     resData.moyenPaiement = json_data.getString("moyenPaiement");
                     resData.detailPaiement = json_data.getString("detailPaiement");
 
@@ -270,6 +278,14 @@ public class Paiement extends AppCompatActivity {
                     // numéro de commande
                     TextView commande   = (TextView)findViewById(R.id.commande);
                     commande.setText(String.valueOf(resData.idC));
+
+                    // numéro de commande
+                    TextView numMagasin   = (TextView)findViewById(R.id.codeMagasin);
+                    numMagasin.setText(String.valueOf(resData.codeMag));
+
+                    // numéro de commande
+                    TextView leMagasin   = (TextView)findViewById(R.id.magasin);
+                    leMagasin.setText(String.valueOf(resData.nomMag));
 
                     // faire les calculs
                     TextView paiement   = (TextView)findViewById(R.id.moyenPaiement);
@@ -337,13 +353,15 @@ public class Paiement extends AppCompatActivity {
         String typePaiement;
         String lePrix;
         String quantite;
+        String boutique;
 
-        public PaiementEffectuer(String compte, String commande, String typePaiement, String lePrix, String quantite){
+        public PaiementEffectuer(String compte, String commande, String typePaiement, String lePrix, String quantite, String boutique){
             this.compte         = compte;
             this.commande       = commande;
             this.typePaiement   = typePaiement;
             this.lePrix         = lePrix;
             this.quantite       = quantite;
+            this.boutique       = boutique;
         }
 
         @Override
@@ -384,7 +402,8 @@ public class Paiement extends AppCompatActivity {
                         .appendQueryParameter("idU", compte)
                         .appendQueryParameter("idC", commande)
                         .appendQueryParameter("moyenPaiement", typePaiement)
-                        .appendQueryParameter("totalPrix", lePrix);
+                        .appendQueryParameter("totalPrix", lePrix)
+                        .appendQueryParameter("boutique", boutique);
                 String query = builder.build().getEncodedQuery();
 
                 OutputStream os = conn.getOutputStream();

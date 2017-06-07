@@ -5,6 +5,7 @@ public class DataSearch {
     public String nomP;
     public String categorie;
     public String quantite;
+    public String disponibilite;
     public String prixP;
     public String photoP;
     public String description;

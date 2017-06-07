@@ -50,7 +50,7 @@ public class AdapterSearch extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         myHolder.itemView.setId(current.idP);
         myHolder.textTitre.setText(current.nomP);
         myHolder.textCat.setText("Catégorie: " + current.categorie);
-        myHolder.textQte.setText("Quantité: " + current.quantite);
+        myHolder.textQte.setText(current.disponibilite);
         myHolder.textPrix.setText(current.prixP);
         myHolder.textPrix.setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent));
         myHolder.textPrix.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));

@@ -254,7 +254,8 @@ public class Validation extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     // You to understand what actually error is and handle it appropriately
-                    Toast.makeText(Validation.this, "exp -> " + e.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(Validation.this, "Erreur de validation du paiement", Toast.LENGTH_LONG).show();
+                    // Toast.makeText(Validation.this, "Erreur: " + e.toString(), Toast.LENGTH_LONG).show();
                     // Toast.makeText(Validation.this, "Exception -> " + resultat.toString(), Toast.LENGTH_LONG).show();
                 }
             }

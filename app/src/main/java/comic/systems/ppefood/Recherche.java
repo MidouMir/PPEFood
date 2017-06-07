@@ -56,7 +56,7 @@ public class Recherche extends AppCompatActivity {
                 resData.idP = json_data.getInt("idP");
                 resData.nomP = json_data.getString("nomP");
                 resData.categorie = json_data.getString("categorie");
-                resData.quantite = json_data.getString("quantite");
+                resData.disponibilite = json_data.getString("disponibilite");
                 resData.prixP = json_data.getString("prixP");
                 resData.photoP = json_data.getString("photoP");
                 data.add(resData);
