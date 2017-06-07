@@ -4,6 +4,7 @@ import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -118,9 +119,7 @@ public class Paiement extends AppCompatActivity {
                 TextView champ6             = (TextView) findViewById(R.id.codeMagasin);
                 String boutique             = champ6.getText().toString();
 
-
                 // Toast.makeText(Paiement.this, "Boutique" + boutique, Toast.LENGTH_LONG).show();
-
 
                 new PaiementEffectuer(compte, commande, typePaiement, lePrix, quantite, boutique).execute();
             }
@@ -251,8 +250,6 @@ public class Paiement extends AppCompatActivity {
             pdLoading.dismiss();
             if(resultat.equals("no rows")) {
                 Toast.makeText(Paiement.this, "Impossible de passer au paiement", Toast.LENGTH_LONG).show();
-            }else if(resultat.equals("no mag")) {
-                Toast.makeText(Paiement.this, "Aucun magasin n'a tous vos produits", Toast.LENGTH_LONG).show();
             }else{
                 try {
                     JSONArray jArray = new JSONArray(resultat);
@@ -331,6 +328,18 @@ public class Paiement extends AppCompatActivity {
                         lePaiement.setImageResource(R.drawable.paiement_maestro);
                     }else if((resData.moyenPaiement).equals("PayPal")) {
                         lePaiement.setImageResource(R.drawable.paiement_paypal);
+                    }
+
+                    if(resData.nomMag.contains("Aucun")) {
+                        Button validation = (Button) findViewById(R.id.valider);
+                        validation.setEnabled(false);
+                        validation.setText("Stock insuffisant");
+                        validation.setTextColor(Color.parseColor("#d70202"));
+                    }else{
+                        Button validation = (Button) findViewById(R.id.valider);
+                        validation.setEnabled(true);
+                        validation.setText("Payer la commande");
+                        validation.setTextColor(getApplication().getResources().getColor(R.color.colorPrimary));
                     }
 
                 } catch (JSONException e) {
